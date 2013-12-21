@@ -1,11 +1,10 @@
 language: ruby
-rvm:
-  2.0.0
+rvm: 2.0.0
 deploy:
   provider: heroku
-  api_key:
-    secure: SKLUDExcCiIDMOyAVRcMoEBWbhXY7UM6JwL6P1nP3g2U2o4dHECT/8BWno049me3BlZfMURVPHOhwwz/oA8pN3ZG5EcLf7sPttA2PbOqYT+hFDsrvcY7aRTRT3UnYjN2YLRnX2l5BzoVo38NSLl640oVinc9xyf2Wotmm2uMyJg=
   app: restdocs-dev
   on:
     repo: stanchino/Restful-API-Health
     branch: development
+  api_key:
+    secure: A6Y10gykNq2yAmqEyQnzjylulB8hU1Esnx3aKctYp2pV1yseXbSh7EpuejA2tEAfK7V34NMdwKKYSqYvzwymJCi8gUo5HwIxdJuy6HdyrBdNljfOr/fGuhuk8PkaoHOuEix47jtca8gd0Tg2ROFQy511cnFQA0soJ0o+mnv8Ndw=
