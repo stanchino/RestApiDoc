@@ -51,3 +51,6 @@ gem 'slim-rails'
 
 # Papertrail for model versions tracking
 gem 'paper_trail', '~> 3.0.0'
+
+# 12factor.net
+gem 'rails_12factor', group: :production
