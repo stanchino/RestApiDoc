@@ -1,0 +1,19 @@
+h1 Listing suites
+
+table
+  tr
+    th Name
+    th
+    th
+    th
+
+  - @suites.each do |suite|
+    tr
+      td = suite.name
+      td = link_to 'Show', suite
+      td = link_to 'Edit', edit_suite_path(suite)
+      td = link_to 'Destroy', suite, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Suite', new_suite_path

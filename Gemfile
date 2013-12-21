@@ -44,3 +44,9 @@ gem 'unicorn'
 
 # Use debugger
 gem 'debugger', group: [:development, :test]
+
+# Using SLIM templates
+gem 'slim-rails'
+
+# Papertrail for model versions tracking
+gem 'paper_trail', '~> 3.0.0'
