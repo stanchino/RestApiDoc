@@ -49,7 +49,7 @@ rake db:seed
 
 ### Running the App
 
-The default application server that is configured is [Unicorn](http://unicorn.bogomips.org/). There is also a [Procfile](https://devcenter.heroku.com/articles/procfile) you can use to deploy to [Heroku](https://www.heroku.com/). In order to start the application locally you will need to configured your some [environment variables](#environment_variables) and then run:
+The default application server that is configured is [Unicorn](http://unicorn.bogomips.org/). There is also a [Procfile](https://devcenter.heroku.com/articles/procfile) you can use to deploy to [Heroku](https://www.heroku.com/). In order to start the application locally you will need to configured your some [environment variables](#environment-variables) and then run:
 ```
 rails server unicorn
 ```
