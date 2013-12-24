@@ -1,5 +1,7 @@
 require 'spec_helper'
 
 describe Project do
-  pending "Add specs for model methods"
+  context "relations" do
+    it { should have_many(:suites) }
+  end
 end

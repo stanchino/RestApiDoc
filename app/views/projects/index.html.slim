@@ -1,25 +1,21 @@
-h1 Listing projects
+.large-2.columns
+  .row
+    h2 Projects
+    ul.side-nav
+      - @projects.each do |project|
+        li = project.name
+      li = link_to 'New Project', new_project_path
 
-table
-  tr
-    th Name
-    th Title
-    th Description
-    th Published
-    th
-    th
-    th
-
-  - @projects.each do |project|
-    tr
-      td = project.name
-      td = project.title
-      td = project.description
-      td = project.published
-      td = link_to 'Show', project
-      td = link_to 'Edit', edit_project_path(project)
-      td = link_to 'Destroy', project, data: {:confirm => 'Are you sure?'}, :method => :delete
-
-br
-
-= link_to 'New Project', new_project_path
+.large-10.columns
+  - project = @projects.first
+  - if project.present?
+    .row
+      h2 = project.title
+    .row
+      p = project.description
+    .row
+      - project.suites do |suite|
+        h3 = suite.title
+        p = suite.description
+    .row
+      li = link_to 'Create Test Suite', new_project_suite_path(project)

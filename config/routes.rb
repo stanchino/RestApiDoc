@@ -1,12 +1,17 @@
 RestApiDoc::Application.routes.draw do
-  resources :pages
-
-  resources :suites
-
-  resources :projects
+  root to: "projects#index"
 
   devise_for :users
-  root to: "projects#index"
+
+  resources :pages
+  resources :suites
+
+  resources :projects do
+    resources :suites do
+      resources :pages
+    end
+  end
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -11,10 +11,10 @@ puts "Creating super admin user"
 User.where(
   first_name: "Super",
   last_name: "Admin",
-  email: 'admin@zaxsis.com'
+  email: 'admin@rest-api-doc.com'
 ).first_or_initialize.tap do |superadmin|
-  superadmin.password = superadmin.password_confirmation = 'alabala123'
+  superadmin.password = superadmin.password_confirmation = 'asdfasdf'
   superadmin.role = "super_admin"
+  superadmin.confirmed_at = Date.today
   superadmin.save!
-  superadmin.confirm!
 end
