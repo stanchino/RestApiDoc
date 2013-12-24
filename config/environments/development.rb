@@ -36,7 +36,7 @@ RestApiDoc::Application.configure do
   config.assets.debug = true
 
   # HTTP Basic Authentication for heroku environments
-  if ENV['HTPAUTH_USERNAME'].present? && ENV["HTTPAUTH_PASSWORD"].present?
+  if ENV['HTTPAUTH_USERNAME'].present? && ENV["HTTPAUTH_PASSWORD"].present?
     config.middleware.insert_after(::Rack::Lock, "::Rack::Auth::Basic", "RestApiDoc Development") do |u, p|
       [u, p] == [ENV['HTTPAUTH_USERNAME'], ENV['HTTPAUTH_PASSWORD']]
     end
