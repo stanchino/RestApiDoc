@@ -1,4 +1,4 @@
-.large-2.columns
+.large-2.medium-3.small-4.columns
   .row
     h2 Projects
     ul.side-nav
@@ -6,7 +6,7 @@
         li = project.name
       li = link_to 'New Project', new_project_path
 
-.large-10.columns
+.large-10.medium-9.small-8.columns
   - project = @projects.first
   - if project.present?
     .row
