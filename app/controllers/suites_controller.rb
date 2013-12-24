@@ -1,4 +1,5 @@
 class SuitesController < ApplicationController
+  before_filter :authenticate_user!, except: [:index, :show]
   before_action :set_suite, only: [:show, :edit, :update, :destroy]
 
   # GET /suites
@@ -69,6 +70,6 @@ class SuitesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def suite_params
-      params.require(:suite).permit(:name)
+      params.require(:suite).permit(:name, :title, :description, :published, :order, :project_id)
     end
 end

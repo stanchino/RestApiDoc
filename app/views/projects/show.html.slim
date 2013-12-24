@@ -1,0 +1,18 @@
+p#notice = notice
+
+p
+  strong Name:
+  = @project.name
+p
+  strong Title:
+  = @project.title
+p
+  strong Description:
+  = @project.description
+p
+  strong Published:
+  = @project.published
+
+= link_to 'Edit', edit_project_path(@project)
+'|
+= link_to 'Back', projects_path

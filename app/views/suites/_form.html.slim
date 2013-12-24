@@ -1,12 +1,13 @@
-= form_for @suite do |f|
-  - if @suite.errors.any?
-    #error_explanation
-      h2 = "#{pluralize(@suite.errors.count, "error")} prohibited this suite from being saved:"
-      ul
-        - @suite.errors.full_messages.each do |message|
-          li = message
+= simple_form_for(@suite) do |f|
+  = f.error_notification
 
-  .field
-    = f.label :name
-    = f.text_field :name
-  .actions = f.submit 'Save'
+  .form-inputs
+    = f.input :name
+    = f.input :title
+    = f.input :description
+    = f.input :published
+    = f.input :order
+    = f.association :project
+
+  .form-actions
+    = f.button :submit

@@ -5,3 +5,16 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+puts "Creating super admin user"
+
+User.where(
+  first_name: "Super",
+  last_name: "Admin",
+  email: 'admin@zaxsis.com'
+).first_or_initialize.tap do |superadmin|
+  superadmin.password = superadmin.password_confirmation = 'alabala123'
+  superadmin.role = "super_admin"
+  superadmin.save!
+  superadmin.confirm!
+end

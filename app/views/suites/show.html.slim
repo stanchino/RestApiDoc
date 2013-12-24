@@ -3,6 +3,21 @@ p#notice = notice
 p
   strong Name:
   = @suite.name
+p
+  strong Title:
+  = @suite.title
+p
+  strong Description:
+  = @suite.description
+p
+  strong Published:
+  = @suite.published
+p
+  strong Order:
+  = @suite.order
+p
+  strong Project:
+  = @suite.project
 
 = link_to 'Edit', edit_suite_path(@suite)
 '|

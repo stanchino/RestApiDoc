@@ -10,6 +10,9 @@ gem 'pg'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
+# Foundation rails
+gem 'foundation-rails'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
@@ -46,6 +49,12 @@ gem 'unicorn-rails'
 # Use debugger
 gem 'debugger', group: [:development, :test]
 
+gem 'faker', group: [:development, :test]
+gem 'factory_girl_rails', group: [:development, :test]
+gem 'rspec-rails', group: [:development, :test]
+gem 'guard-rspec', group: [:development, :test], require: false
+gem 'shoulda-matchers', group: [:development, :test]
+
 # Using SLIM templates
 gem 'slim-rails'
 
@@ -54,3 +63,12 @@ gem 'paper_trail', '~> 3.0.0'
 
 # 12factor.net
 gem 'rails_12factor', group: :production
+
+# devise user authentication
+gem 'devise'
+
+# Use SimpleForm
+gem 'simple_form'
+
+# cancan authorization
+gem 'cancan'

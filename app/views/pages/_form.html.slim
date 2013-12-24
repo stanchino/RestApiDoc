@@ -1,15 +1,13 @@
-= form_for @page do |f|
-  - if @page.errors.any?
-    #error_explanation
-      h2 = "#{pluralize(@page.errors.count, "error")} prohibited this page from being saved:"
-      ul
-        - @page.errors.full_messages.each do |message|
-          li = message
+= simple_form_for(@page) do |f|
+  = f.error_notification
 
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :suite
-    = f.text_field :suite
-  .actions = f.submit 'Save'
+  .form-inputs
+    = f.input :name
+    = f.input :title
+    = f.input :description
+    = f.input :published
+    = f.input :order
+    = f.association :suite
+
+  .form-actions
+    = f.button :submit

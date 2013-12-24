@@ -15,6 +15,14 @@ RestApiDoc::Application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      :address   => ENV["MAIL_HOSTNAME"],
+      :port      => ENV["MAIL_PORT"],
+      :user_name => ENV["MAIL_USERNAME"],
+      :password  => ENV["MAIL_PASSWORD"]
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -26,4 +34,11 @@ RestApiDoc::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+
+  # HTTP Basic Authentication for heroku environments
+  if ENV['HTPAUTH_USERNAME'].present? && ENV["HTTPAUTH_PASSWORD"].present?
+    config.middleware.insert_after(::Rack::Lock, "::Rack::Auth::Basic", "RestApiDoc Development") do |u, p|
+      [u, p] == [ENV['HTTPAUTH_USERNAME'], ENV['HTTPAUTH_PASSWORD']]
+    end
+  end
 end

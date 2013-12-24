@@ -3,6 +3,10 @@ h1 Listing pages
 table
   tr
     th Name
+    th Title
+    th Description
+    th Published
+    th Order
     th Suite
     th
     th
@@ -11,6 +15,10 @@ table
   - @pages.each do |page|
     tr
       td = page.name
+      td = page.title
+      td = page.description
+      td = page.published
+      td = page.order
       td = page.suite
       td = link_to 'Show', page
       td = link_to 'Edit', edit_page_path(page)
