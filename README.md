@@ -62,5 +62,4 @@ rails server unicorn
  * HTTPAUTH_USERNAME - Basic HTTP authentication username to access the applciation
  * HTTPAUTH_PASSWORD - Basic HTTP authentication password to access the application
 
-Note: If you don't provide HTTPAUTH_USERNAME or HTTPAUTH_PASSWORD HTTP
-Basic Authentication will be disabled.
+Note: If you don't provide HTTPAUTH_USERNAME or HTTPAUTH_PASSWORD HTTP Basic Authentication will be disabled.
