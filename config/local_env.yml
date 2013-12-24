@@ -1,6 +1,0 @@
-MAIL_HOSTNAME: smtp.mandrillapp.com
-MAIL_PORT: "587"
-MAIL_USERNAME: stanchino@gmail.com
-MAIL_PASSWORD: OwQVAl7SNKIKI9jgfPa9tw
-HTTPAUTH_USERNAME: rest-api-doc
-HTTPAUTH_PASSWORD: R3sT1nPiaC3
