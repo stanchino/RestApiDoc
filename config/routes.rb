@@ -3,13 +3,12 @@ RestApiDoc::Application.routes.draw do
 
   devise_for :users
 
-  resources :pages
-  resources :suites
+  resources :suites do
+    resources :pages
+  end
 
   resources :projects do
-    resources :suites do
-      resources :pages
-    end
+    resources :suites
   end
 
 

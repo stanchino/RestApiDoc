@@ -2,11 +2,11 @@
 
 FactoryGirl.define do
   factory :suite do
-    name "MyString"
+    sequence(:name) { |i| "Suite #{i}" }
     title "MyString"
     description "MyText"
     published false
-    order 1
+    sequence(:order)
     project nil
   end
 end

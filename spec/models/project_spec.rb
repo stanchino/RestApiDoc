@@ -4,6 +4,7 @@ describe Project do
   context "relations" do
     it { should have_many(:suites) }
     it { should have_many(:users_projects) }
+    it { should have_many(:users).through(:users_projects) }
   end
   context "scopes" do
     it "should sort by title" do

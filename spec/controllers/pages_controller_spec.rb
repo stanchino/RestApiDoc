@@ -30,34 +30,41 @@ describe PagesController do
   # in order to pass any filters (e.g. authentication) defined in
   # PagesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
+  let(:valid_request) { {} }
+  before do
+    @project = subject.current_user.projects.create!(name: "MyProject")
+    @suite = subject.current_user.suites.create!(:name => "MySuite", :project => @project)
+    valid_request.merge!({:suite_id => @suite.to_param})
+  end
+
 
   describe "GET index" do
     it "assigns all pages as @pages" do
-      page = Page.create! valid_attributes
-      get :index, {}, valid_session
+      page = @suite.pages.create! valid_attributes
+      get :index, valid_request, valid_session
       assigns(:pages).should eq([page])
     end
   end
 
   describe "GET show" do
     it "assigns the requested page as @page" do
-      page = Page.create! valid_attributes
-      get :show, {:id => page.to_param}, valid_session
+      page = @suite.pages.create! valid_attributes
+      get :show, valid_request.merge({:id => page.to_param}), valid_session
       assigns(:page).should eq(page)
     end
   end
 
   describe "GET new" do
     it "assigns a new page as @page" do
-      get :new, {}, valid_session
+      get :new, valid_request, valid_session
       assigns(:page).should be_a_new(Page)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested page as @page" do
-      page = Page.create! valid_attributes
-      get :edit, {:id => page.to_param}, valid_session
+      page = @suite.pages.create! valid_attributes
+      get :edit, valid_request.merge({:id => page.to_param}), valid_session
       assigns(:page).should eq(page)
     end
   end
@@ -66,19 +73,19 @@ describe PagesController do
     describe "with valid params" do
       it "creates a new Page" do
         expect {
-          post :create, {:page => valid_attributes}, valid_session
+          post :create, valid_request.merge({:page => valid_attributes}), valid_session
         }.to change(Page, :count).by(1)
       end
 
       it "assigns a newly created page as @page" do
-        post :create, {:page => valid_attributes}, valid_session
+        post :create, valid_request.merge({:page => valid_attributes}), valid_session
         assigns(:page).should be_a(Page)
         assigns(:page).should be_persisted
       end
 
       it "redirects to the created page" do
-        post :create, {:page => valid_attributes}, valid_session
-        response.should redirect_to(Page.last)
+        post :create, valid_request.merge({:page => valid_attributes}), valid_session
+        response.should redirect_to(@project)
       end
     end
 
@@ -86,14 +93,14 @@ describe PagesController do
       it "assigns a newly created but unsaved page as @page" do
         # Trigger the behavior that occurs when invalid params are submitted
         Page.any_instance.stub(:save).and_return(false)
-        post :create, {:page => { "name" => "invalid value" }}, valid_session
+        post :create, valid_request.merge({:page => { "name" => "invalid value" }}), valid_session
         assigns(:page).should be_a_new(Page)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Page.any_instance.stub(:save).and_return(false)
-        post :create, {:page => { "name" => "invalid value" }}, valid_session
+        post :create, valid_request.merge({:page => { "name" => "invalid value" }}), valid_session
         response.should render_template("new")
       end
     end
@@ -102,42 +109,42 @@ describe PagesController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested page" do
-        page = Page.create! valid_attributes
+        page = @suite.pages.create! valid_attributes
         # Assuming there are no other pages in the database, this
-        # specifies that the Page created on the previous line
+        # specifies that the @suite.pages.created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Page.any_instance.should_receive(:update).with({ "name" => "MyString" })
-        put :update, {:id => page.to_param, :page => { "name" => "MyString" }}, valid_session
+        put :update, valid_request.merge({:id => page.to_param, :page => { "name" => "MyString" }}), valid_session
       end
 
       it "assigns the requested page as @page" do
-        page = Page.create! valid_attributes
-        put :update, {:id => page.to_param, :page => valid_attributes}, valid_session
+        page = @suite.pages.create! valid_attributes
+        put :update, valid_request.merge({:id => page.to_param, :page => valid_attributes}), valid_session
         assigns(:page).should eq(page)
       end
 
       it "redirects to the page" do
-        page = Page.create! valid_attributes
-        put :update, {:id => page.to_param, :page => valid_attributes}, valid_session
-        response.should redirect_to(page)
+        page = @suite.pages.create! valid_attributes
+        put :update, valid_request.merge({:id => page.to_param, :page => valid_attributes}), valid_session
+        response.should redirect_to(@project)
       end
     end
 
     describe "with invalid params" do
       it "assigns the page as @page" do
-        page = Page.create! valid_attributes
+        page = @suite.pages.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Page.any_instance.stub(:save).and_return(false)
-        put :update, {:id => page.to_param, :page => { "name" => "invalid value" }}, valid_session
+        put :update, valid_request.merge({:id => page.to_param, :page => { "name" => "invalid value" }}), valid_session
         assigns(:page).should eq(page)
       end
 
       it "re-renders the 'edit' template" do
-        page = Page.create! valid_attributes
+        page = @suite.pages.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Page.any_instance.stub(:save).and_return(false)
-        put :update, {:id => page.to_param, :page => { "name" => "invalid value" }}, valid_session
+        put :update, valid_request.merge({:id => page.to_param, :page => { "name" => "invalid value" }}), valid_session
         response.should render_template("edit")
       end
     end
@@ -145,16 +152,16 @@ describe PagesController do
 
   describe "DELETE destroy" do
     it "destroys the requested page" do
-      page = Page.create! valid_attributes
+      page = @suite.pages.create! valid_attributes
       expect {
-        delete :destroy, {:id => page.to_param}, valid_session
+        delete :destroy, valid_request.merge({:id => page.to_param}), valid_session
       }.to change(Page, :count).by(-1)
     end
 
     it "redirects to the pages list" do
-      page = Page.create! valid_attributes
-      delete :destroy, {:id => page.to_param}, valid_session
-      response.should redirect_to(pages_url)
+      page = @suite.pages.create! valid_attributes
+      delete :destroy, valid_request.merge({:id => page.to_param}), valid_session
+      response.should redirect_to(@project)
     end
   end
 

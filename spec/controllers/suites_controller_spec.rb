@@ -31,54 +31,96 @@ describe SuitesController do
   # SuitesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  let(:valid_request) { {} }
+
+  before do
+    @project = subject.current_user.projects.create(:title => "MyProject")
+    valid_request.merge!({:project_id => @project.to_param})
+  end
+
   describe "GET index" do
-    it "assigns all suites as @suites" do
-      suite = Suite.create! valid_attributes
+    it "assigns all project suites as @suites" do
+      suite = @project.suites.create! valid_attributes
+      get :index, valid_request, valid_session
+      assigns(:project).should eq(@project)
+      assigns(:suites).should eq([suite])
+    end
+
+    it "assigns all user suites as @suites" do
+      suite = subject.current_user.suites.create! valid_attributes.merge(:project => @project)
       get :index, {}, valid_session
       assigns(:suites).should eq([suite])
     end
   end
 
   describe "GET show" do
+    it "return forbidden if the project id is missing" do
+      get :new, {}, valid_session
+      response.should be_forbidden
+    end
+
     it "assigns the requested suite as @suite" do
-      suite = Suite.create! valid_attributes
-      get :show, {:id => suite.to_param}, valid_session
+      suite = @project.suites.create! valid_attributes
+      get :show, valid_request.merge({:id => suite.to_param}), valid_session
       assigns(:suite).should eq(suite)
+    end
+    it "assigns the project and the suite" do
+      suite = @project.suites.create! valid_attributes
+      get :show, valid_request.merge({:id => suite.to_param}), valid_session
+      assigns(:suite).should eq(suite)
+      assigns(:project).should eq(@project)
     end
   end
 
   describe "GET new" do
-    it "assigns a new suite as @suite" do
+    it "return forbidden if the project id is missing" do
       get :new, {}, valid_session
+      response.should be_forbidden
+    end
+
+    it "assigns a new suite as @suite" do
+      get :new, valid_request, valid_session
+      assigns(:project).should eq(@project)
       assigns(:suite).should be_a_new(Suite)
     end
   end
 
   describe "GET edit" do
-    it "assigns the requested suite as @suite" do
-      suite = Suite.create! valid_attributes
+    it "return forbidden if the project id is missing" do
+      suite = @project.suites.create! valid_attributes
       get :edit, {:id => suite.to_param}, valid_session
+      response.should be_forbidden
+    end
+
+    it "assigns the requested suite as @suite" do
+      suite = @project.suites.create! valid_attributes
+      get :edit, valid_request.merge({:id => suite.to_param}), valid_session
       assigns(:suite).should eq(suite)
     end
   end
 
   describe "POST create" do
+    it "return forbidden if the project id is missing" do
+      post :create, {}, valid_session
+      response.should be_forbidden
+    end
+
     describe "with valid params" do
       it "creates a new Suite" do
         expect {
-          post :create, {:suite => valid_attributes}, valid_session
+          post :create, valid_request.merge({:suite => valid_attributes}), valid_session
         }.to change(Suite, :count).by(1)
       end
 
       it "assigns a newly created suite as @suite" do
-        post :create, {:suite => valid_attributes}, valid_session
+        post :create, valid_request.merge({:suite => valid_attributes}), valid_session
         assigns(:suite).should be_a(Suite)
         assigns(:suite).should be_persisted
       end
 
       it "redirects to the created suite" do
-        post :create, {:suite => valid_attributes}, valid_session
-        response.should redirect_to(Suite.last)
+        post :create, valid_request.merge({:suite => valid_attributes}), valid_session
+        response.should redirect_to(@project)
       end
     end
 
@@ -86,75 +128,86 @@ describe SuitesController do
       it "assigns a newly created but unsaved suite as @suite" do
         # Trigger the behavior that occurs when invalid params are submitted
         Suite.any_instance.stub(:save).and_return(false)
-        post :create, {:suite => { "name" => "invalid value" }}, valid_session
+        post :create, valid_request.merge({:suite => { "name" => "invalid value" }}), valid_session
         assigns(:suite).should be_a_new(Suite)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Suite.any_instance.stub(:save).and_return(false)
-        post :create, {:suite => { "name" => "invalid value" }}, valid_session
+        post :create, valid_request.merge({:suite => { "name" => "invalid value" }}), valid_session
         response.should render_template("new")
       end
     end
   end
 
   describe "PUT update" do
+    before do
+      @suite = @project.suites.create! valid_attributes
+      valid_request.merge!({:id => @suite.to_param})
+    end
+    it "return forbidden if the project id is missing" do
+      put :update, {:id => @suite.to_param}, valid_session
+      response.should be_forbidden
+    end
+
     describe "with valid params" do
       it "updates the requested suite" do
-        suite = Suite.create! valid_attributes
         # Assuming there are no other suites in the database, this
         # specifies that the Suite created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Suite.any_instance.should_receive(:update).with({ "name" => "MyString" })
-        put :update, {:id => suite.to_param, :suite => { "name" => "MyString" }}, valid_session
+        put :update, valid_request.merge({:suite => { "name" => "MyString" }}), valid_session
       end
 
       it "assigns the requested suite as @suite" do
-        suite = Suite.create! valid_attributes
-        put :update, {:id => suite.to_param, :suite => valid_attributes}, valid_session
-        assigns(:suite).should eq(suite)
+        put :update, valid_request.merge({:suite => valid_attributes}), valid_session
+        assigns(:suite).should eq(@suite)
       end
 
       it "redirects to the suite" do
-        suite = Suite.create! valid_attributes
-        put :update, {:id => suite.to_param, :suite => valid_attributes}, valid_session
-        response.should redirect_to(suite)
+        put :update, valid_request.merge({:suite => valid_attributes}), valid_session
+        response.should redirect_to(@project)
       end
     end
 
     describe "with invalid params" do
       it "assigns the suite as @suite" do
-        suite = Suite.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Suite.any_instance.stub(:save).and_return(false)
-        put :update, {:id => suite.to_param, :suite => { "name" => "invalid value" }}, valid_session
-        assigns(:suite).should eq(suite)
+        put :update, valid_request.merge({:suite => { "name" => "invalid value" }}), valid_session
+        assigns(:suite).should eq(@suite)
       end
 
       it "re-renders the 'edit' template" do
-        suite = Suite.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Suite.any_instance.stub(:save).and_return(false)
-        put :update, {:id => suite.to_param, :suite => { "name" => "invalid value" }}, valid_session
+        put :update, valid_request.merge({:suite => { "name" => "invalid value" }}), valid_session
         response.should render_template("edit")
       end
     end
   end
 
   describe "DELETE destroy" do
+    before do
+      @suite = @project.suites.create! valid_attributes
+      valid_request.merge!({:id => @suite.to_param})
+    end
+    it "return forbidden if the project id is missing" do
+      delete :destroy, {:id => @suite.to_param}, valid_session
+      response.should be_forbidden
+    end
+
     it "destroys the requested suite" do
-      suite = Suite.create! valid_attributes
       expect {
-        delete :destroy, {:id => suite.to_param}, valid_session
+        delete :destroy, valid_request, valid_session
       }.to change(Suite, :count).by(-1)
     end
 
     it "redirects to the suites list" do
-      suite = Suite.create! valid_attributes
-      delete :destroy, {:id => suite.to_param}, valid_session
-      response.should redirect_to(suites_url)
+      delete :destroy, valid_request, valid_session
+      response.should redirect_to(@project)
     end
   end
 

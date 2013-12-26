@@ -1,4 +1,4 @@
-= simple_form_for(@page) do |f|
+= simple_form_for([@suite, @page]) do |f|
   = f.error_notification
 
   .form-inputs
@@ -6,8 +6,8 @@
     = f.input :title
     = f.input :description
     = f.input :published
-    = f.input :order
-    = f.association :suite
+    /= f.input :order
+    /= f.association :suite
 
   .form-actions
     = f.button :submit

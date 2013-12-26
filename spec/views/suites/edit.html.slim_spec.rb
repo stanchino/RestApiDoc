@@ -21,7 +21,6 @@ describe "suites/edit" do
       assert_select "input#suite_title[name=?]", "suite[title]"
       assert_select "textarea#suite_description[name=?]", "suite[description]"
       assert_select "input#suite_published[name=?]", "suite[published]"
-      assert_select "input#suite_order[name=?]", "suite[order]"
     end
   end
 end

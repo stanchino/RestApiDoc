@@ -1,24 +1,12 @@
-p#notice = notice
-
-p
-  strong Name:
-  = @page.name
-p
-  strong Title:
-  = @page.title
-p
-  strong Description:
-  = @page.description
-p
-  strong Published:
-  = @page.published
-p
-  strong Order:
-  = @page.order
-p
-  strong Suite:
-  = @page.suite
-
-= link_to 'Edit', edit_page_path(@page)
-'|
-= link_to 'Back', pages_path
+- page ||= @page
+h4
+  = page.title
+  .right
+    = link_to raw('<small>Edit</small>'), edit_suite_page_path(page.suite, page)
+    small |
+    = link_to raw('<small>Delete</small>'), suite_page_path(page.suite, page), :data => {:confirm => 'Are you sure?'}, :method => :delete
+p = page.description
+.row
+  .large-12.medium-12.small-12.columns
+    /= render :file => "assertions/index", :locals => {assertions: page.assertions}
+    /= link_to 'Add page', new_project_suite_page_assertion_path(page.suite.project, page.suite, page)
