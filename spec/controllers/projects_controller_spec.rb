@@ -33,15 +33,16 @@ describe ProjectsController do
 
   describe "GET index" do
     it "assigns all projects as @projects" do
-      project = Project.create! valid_attributes
+      subject.current_user.projects.create! valid_attributes
       get :index, {}, valid_session
-      assigns(:projects).should eq([project])
+      assigns(:project).should eq(subject.current_user.latest_project)
+      assigns(:projects).should eq(subject.current_user.projects)
     end
   end
 
   describe "GET show" do
     it "assigns the requested project as @project" do
-      project = Project.create! valid_attributes
+      project = subject.current_user.projects.create! valid_attributes
       get :show, {:id => project.to_param}, valid_session
       assigns(:project).should eq(project)
     end
@@ -56,7 +57,7 @@ describe ProjectsController do
 
   describe "GET edit" do
     it "assigns the requested project as @project" do
-      project = Project.create! valid_attributes
+      project = subject.current_user.projects.create! valid_attributes
       get :edit, {:id => project.to_param}, valid_session
       assigns(:project).should eq(project)
     end
@@ -102,7 +103,7 @@ describe ProjectsController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested project" do
-        project = Project.create! valid_attributes
+        project = subject.current_user.projects.create! valid_attributes
         # Assuming there are no other projects in the database, this
         # specifies that the Project created on the previous line
         # receives the :update_attributes message with whatever params are
@@ -112,13 +113,13 @@ describe ProjectsController do
       end
 
       it "assigns the requested project as @project" do
-        project = Project.create! valid_attributes
+        project = subject.current_user.projects.create! valid_attributes
         put :update, {:id => project.to_param, :project => valid_attributes}, valid_session
         assigns(:project).should eq(project)
       end
 
       it "redirects to the project" do
-        project = Project.create! valid_attributes
+        project = subject.current_user.projects.create! valid_attributes
         put :update, {:id => project.to_param, :project => valid_attributes}, valid_session
         response.should redirect_to(project)
       end
@@ -126,7 +127,7 @@ describe ProjectsController do
 
     describe "with invalid params" do
       it "assigns the project as @project" do
-        project = Project.create! valid_attributes
+        project = subject.current_user.projects.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
         put :update, {:id => project.to_param, :project => { "name" => "invalid value" }}, valid_session
@@ -134,7 +135,7 @@ describe ProjectsController do
       end
 
       it "re-renders the 'edit' template" do
-        project = Project.create! valid_attributes
+        project = subject.current_user.projects.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
         put :update, {:id => project.to_param, :project => { "name" => "invalid value" }}, valid_session
@@ -145,14 +146,14 @@ describe ProjectsController do
 
   describe "DELETE destroy" do
     it "destroys the requested project" do
-      project = Project.create! valid_attributes
+      project = subject.current_user.projects.create! valid_attributes
       expect {
         delete :destroy, {:id => project.to_param}, valid_session
       }.to change(Project, :count).by(-1)
     end
 
     it "redirects to the projects list" do
-      project = Project.create! valid_attributes
+      project = subject.current_user.projects.create! valid_attributes
       delete :destroy, {:id => project.to_param}, valid_session
       response.should redirect_to(projects_url)
     end

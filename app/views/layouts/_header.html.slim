@@ -1,0 +1,23 @@
+aside.left-off-canvas-menu
+  ul.off-canvas-list
+    li = link_to "Browse Projects", projects_path
+    li = link_to "Create Project", new_project_path
+    li = link_to "About Us"
+    li = link_to "My Account"
+nav.tab-bar.show-for-small
+  = link_to raw('<span>RestApiDoc</span>'), root_path,
+    class: 'left-off-canvas-toggle menu-icon'
+nav.top-bar.hide-for-small
+  ul.title-area
+    li.name
+      h1 = link_to "RestApiDoc", root_path
+  section.top-bar-section
+    ul.right
+      li.divider
+      li= link_to "Browse Projects", projects_path
+      li.divider
+      li = link_to "Create Project", new_project_path
+      li.divider
+      li = link_to "About Us"
+      li.divider
+      li = link_to "My Account"

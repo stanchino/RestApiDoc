@@ -1,21 +1,2 @@
-.large-2.medium-3.small-4.columns
-  .row
-    h2 Projects
-    ul.side-nav
-      - @projects.each do |project|
-        li = project.name
-      li = link_to 'New Project', new_project_path
-
-.large-10.medium-9.small-8.columns
-  - project = @projects.first
-  - if project.present?
-    .row
-      h2 = project.title
-    .row
-      p = project.description
-    .row
-      - project.suites do |suite|
-        h3 = suite.title
-        p = suite.description
-    .row
-      li = link_to 'Create Test Suite', new_project_suite_path(project)
+- if @project.present?
+  = render file: "projects/show"

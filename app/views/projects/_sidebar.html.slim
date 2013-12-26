@@ -1,0 +1,7 @@
+.row
+  h2 Projects
+  ul.side-nav
+    - current_user.projects.each do |project|
+      - unless project.new_record?
+        li = link_to project.title, project_path(project)
+    li = link_to 'New Project', new_project_path

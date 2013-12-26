@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :project do
-    name "MyString"
+    sequence(:name) { |i| "MyString #{i}" }
     title "MyString"
     description "MyText"
     published false

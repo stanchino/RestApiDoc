@@ -1,18 +1,14 @@
-p#notice = notice
-
-p
-  strong Name:
-  = @project.name
-p
-  strong Title:
-  = @project.title
-p
-  strong Description:
-  = @project.description
-p
-  strong Published:
-  = @project.published
-
-= link_to 'Edit', edit_project_path(@project)
-'|
-= link_to 'Back', projects_path
+.row
+  h2 = @project.title
+.row
+  p = @project.description
+.row
+  - @project.suites.each do |suite|
+    h3 = link_to suite.title, project_suite_path(@project, suite)
+    p = suite.description
+.row
+  li = link_to 'Create Test Suite', new_project_suite_path(@project)
+.row
+  = link_to 'Edit', edit_project_path(@project)
+  '|
+  = link_to 'Back', projects_path

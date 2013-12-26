@@ -8,12 +8,12 @@ module ControllerAuthentication
     end
   end
 
-  def login_admin
-    login_user(:admin)
-  end
+#  def login_admin
+#    login_user(:admin)
+#  end
 
-  def login_super_admin
-    login_user(:super_admin)
-  end
+#  def login_super_admin
+#    login_user(:super_admin)
+#  end
 end
 

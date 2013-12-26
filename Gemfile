@@ -54,6 +54,7 @@ gem 'factory_girl_rails', group: [:development, :test]
 gem 'rspec-rails', group: [:development, :test]
 gem 'guard-rspec', group: [:development, :test], require: false
 gem 'shoulda-matchers', group: [:development, :test]
+gem 'simplecov', :require => false, :group => :test
 
 # Using SLIM templates
 gem 'slim-rails'
