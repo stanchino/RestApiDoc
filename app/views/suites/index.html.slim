@@ -1,5 +1,4 @@
 - project ||= @project
 .large-12.medium-12.small-12.columns
   - project.suites.each do |suite|
-    hr
     = render :file => "suites/show", :locals => {suite: suite}

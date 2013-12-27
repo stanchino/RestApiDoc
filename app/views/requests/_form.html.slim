@@ -2,10 +2,12 @@
   = f.error_notification
 
   .form-inputs
+    = f.input :method, :collection => [:OPTIONS, :GET, :POST, :PUT, :PATCH, :DELETE]
+    = f.simple_fields_for :entity, @request.entity || @request.build_entity do |e|
+      = e.input :uri
+    = f.input :body
     = f.input :title
     = f.input :description
-    = f.input :method
-    = f.association :entity
 
   .form-actions
     = f.button :submit

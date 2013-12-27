@@ -30,8 +30,8 @@ class RequestsController < ApplicationController
 
     respond_to do |format|
       if @request.save
-        format.html { redirect_to suite_page_request_url(@suite, @page, @request), notice: 'Request was successfully created.' }
-        format.json { render action: 'show', status: :created, location: suite_page_request_url(@suite, @page, @request) }
+        format.html { redirect_to @project, notice: 'Request was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @project }
       else
         format.html { render action: 'new' }
         format.json { render json: @request.errors, status: :unprocessable_entity }
@@ -44,7 +44,7 @@ class RequestsController < ApplicationController
   def update
     respond_to do |format|
       if @request.update(request_params)
-        format.html { redirect_to suite_page_request_url(@suite, @page, @request), notice: 'Request was successfully updated.' }
+        format.html { redirect_to @project, notice: 'Request was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -58,7 +58,7 @@ class RequestsController < ApplicationController
   def destroy
     @request.destroy
     respond_to do |format|
-      format.html { redirect_to suite_page_requests_url(@suite, @page) }
+      format.html { redirect_to @project }
       format.json { head :no_content }
     end
   end
@@ -68,6 +68,7 @@ class RequestsController < ApplicationController
     def set_page
       @page = Page.joins(:suite => :users).where("users.id" => current_user.id, "suite_id" => params[:suite_id], :id => params[:page_id]).first
       @suite = @page.suite
+      @project = @suite.project
     end
 
     def set_request
@@ -79,6 +80,6 @@ class RequestsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def request_params
-      params.require(:request).permit(:title, :description, :method, :entity_id)
+      params.require(:request).permit(:title, :description, :method, :entity_id, :entity_attributes => [:uri])
     end
 end

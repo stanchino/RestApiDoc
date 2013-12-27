@@ -11,7 +11,8 @@ describe "requests/show" do
       :title => "Title",
       :description => "MyText",
       :method => "Method",
-      :entity => nil
+      :entity => stub_model(Entity, :uri => "URI"),
+      :page => page
     ))
   end
 
@@ -21,6 +22,5 @@ describe "requests/show" do
     rendered.should match(/Title/)
     rendered.should match(/MyText/)
     rendered.should match(/Method/)
-    rendered.should match(//)
   end
 end

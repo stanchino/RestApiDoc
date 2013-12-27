@@ -34,7 +34,8 @@ describe RequestsController do
   let(:valid_request) { {} }
 
   before do
-    @suite = subject.current_user.suites.create!(:name => "MySuite")
+    @project = subject.current_user.projects.create!(:name => "MyProject")
+    @suite = subject.current_user.suites.create!(:name => "MySuite", :project => @project)
     @page = @suite.pages.create!(:name => "MyPage")
     valid_request.merge!({:suite_id => @suite.to_param, :page_id => @page.to_param})
   end
@@ -86,7 +87,7 @@ describe RequestsController do
 
       it "redirects to the created request" do
         post :create, valid_request.merge({:request => valid_attributes}), valid_session
-        response.should redirect_to(suite_page_request_url(@suite, @page, Request.last))
+        response.should redirect_to(@project)
       end
     end
 
@@ -128,7 +129,7 @@ describe RequestsController do
       it "redirects to the request" do
         request = @page.requests.create! valid_attributes
         put :update, valid_request.merge({:id => request.to_param, :request => valid_attributes}), valid_session
-        response.should redirect_to(suite_page_request_url(@suite, @page, request))
+        response.should redirect_to(@project)
       end
     end
 
@@ -162,7 +163,7 @@ describe RequestsController do
     it "redirects to the requests list" do
       request = @page.requests.create! valid_attributes
       delete :destroy, valid_request.merge({:id => request.to_param}), valid_session
-      response.should redirect_to(suite_page_requests_url(@suite, @page))
+      response.should redirect_to(@project)
     end
   end
 

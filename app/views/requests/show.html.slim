@@ -1,18 +1,14 @@
-p#notice = notice
-
-p
-  strong Title:
-  = @request.title
-p
-  strong Description:
-  = @request.description
-p
-  strong Method:
-  = @request.method
-p
-  strong Entity:
-  = @request.entity
-
-= link_to 'Edit', edit_suite_page_request_path(@suite, @page, @request)
-'|
-= link_to 'Back', suite_page_requests_path(@suite, @page)
+- request ||= @request
+- page = request.page
+- suite = page.suite
+.panel.callout
+  h5
+    = "#{request.method} #{request.entity.uri}"
+    .right
+      = link_to raw('<small>Edit</small>'), edit_suite_page_request_path(suite, page, request)
+      small |
+      = link_to raw('<small>Delete</small>'), suite_page_request_path(suite, page, request), :data => {:confirm => 'Are you sure?'}, :method => :delete
+  hr
+  p.small = request.title
+  p = request.description
+  p = request.body
