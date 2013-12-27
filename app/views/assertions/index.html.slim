@@ -1,0 +1,27 @@
+h1 Listing assertions
+
+table
+  tr
+    th Title
+    th Description
+    th Assignment
+    th Expectation
+    th Code
+    th
+    th
+    th
+
+  - @assertions.each do |assertion|
+    tr
+      td = assertion.title
+      td = assertion.description
+      td = assertion.assignment
+      td = assertion.expectation
+      td = assertion.code
+      td = link_to 'Show', assertion
+      td = link_to 'Edit', edit_assertion_path(assertion)
+      td = link_to 'Destroy', assertion, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Assertion', new_assertion_path

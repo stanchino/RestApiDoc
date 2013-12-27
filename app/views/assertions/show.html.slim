@@ -1,0 +1,21 @@
+p#notice = notice
+
+p
+  strong Title:
+  = @assertion.title
+p
+  strong Description:
+  = @assertion.description
+p
+  strong Assignment:
+  = @assertion.assignment
+p
+  strong Expectation:
+  = @assertion.expectation
+p
+  strong Code:
+  = @assertion.code
+
+= link_to 'Edit', edit_assertion_path(@assertion)
+'|
+= link_to 'Back', assertions_path

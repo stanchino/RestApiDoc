@@ -1,0 +1,12 @@
+= simple_form_for(@assertion) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :title
+    = f.input :description
+    = f.input :assignment
+    = f.input :expectation
+    = f.input :code
+
+  .form-actions
+    = f.button :submit
