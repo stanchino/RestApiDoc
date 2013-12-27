@@ -1,13 +1,11 @@
 - project ||= @project
-.row
-  h2
-    = project.title
-    .right
-      = link_to raw('<small>Edit</small>'), edit_project_path(project)
-      small |
-      = link_to raw('<small>Delete</small>'), project_path(project), :data => {:confirm => 'Are you sure?'}, :method => :delete
-  p = @project.description
-.row
-  .large-12.medium-12.small-12.columns
-    = render :file => "suites/index", locals: {suites: @project.suites}
-    = link_to 'Create Test Suite', new_project_suite_path(@project)
+h2
+  = project.title
+  .right
+    = link_to raw('<small>Add Suite</small>'), new_project_suite_path(project)
+    small |
+    = link_to raw('<small>Edit</small>'), edit_project_path(project)
+    small |
+    = link_to raw('<small>Delete</small>'), project_path(project), :data => {:confirm => 'Are you sure?'}, :method => :delete
+p = @project.description
+= render :file => "suites/index", locals: {project: @project}

@@ -1,0 +1,18 @@
+p#notice = notice
+
+p
+  strong Title:
+  = @request.title
+p
+  strong Description:
+  = @request.description
+p
+  strong Method:
+  = @request.method
+p
+  strong Entity:
+  = @request.entity
+
+= link_to 'Edit', edit_suite_page_request_path(@suite, @page, @request)
+'|
+= link_to 'Back', suite_page_requests_path(@suite, @page)

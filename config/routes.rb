@@ -4,7 +4,9 @@ RestApiDoc::Application.routes.draw do
   devise_for :users
 
   resources :suites do
-    resources :pages
+    resources :pages do
+      resources :requests
+    end
   end
 
   resources :projects do

@@ -1,6 +1,4 @@
-- pages ||= @pages
-- if pages.any?
-  ul.no-bullet
-    - pages.each do |page|
-      li
-        = render :file => "pages/show", :locals => {page: page}
+- suite ||= @suite
+.large-12.medium-12.small-12.columns
+  - suite.pages.each do |page|
+    = render :file => "pages/show", :locals => {page: page}

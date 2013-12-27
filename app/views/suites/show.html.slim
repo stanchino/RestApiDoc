@@ -1,12 +1,12 @@
 - suite ||= @suite
+- project = suite.project
 h3
   = suite.title
   .right
-    = link_to raw('<small>Edit</small>'), edit_project_suite_path(suite.project, suite)
+    = link_to raw('<small>Add Page</small>'), new_suite_page_path(suite)
     small |
-    = link_to raw('<small>Delete</small>'), project_suite_path(suite.project, suite), :data => {:confirm => 'Are you sure?'}, :method => :delete
+    = link_to raw('<small>Edit</small>'), edit_project_suite_path(project, suite)
+    small |
+    = link_to raw('<small>Delete</small>'), project_suite_path(project, suite), :data => {:confirm => 'Are you sure?'}, :method => :delete
 p = suite.description
-.row
-  .large-12.medium-12.small-12.columns
-    = render :file => "pages/index", :locals => {pages: suite.pages}
-    = link_to 'Add page', new_suite_page_path(suite)
+= render :file => "pages/index", :locals => {suite: suite}

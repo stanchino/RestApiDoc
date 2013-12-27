@@ -1,0 +1,25 @@
+h1 Listing requests
+
+table
+  tr
+    th Title
+    th Description
+    th Method
+    th Entity
+    th
+    th
+    th
+
+  - @requests.each do |request|
+    tr
+      td = request.title
+      td = request.description
+      td = request.method
+      td = request.entity
+      td = link_to 'Show', suite_page_request_path(@suite, @page, request)
+      td = link_to 'Edit', edit_suite_page_request_path(@suite, @page, request)
+      td = link_to 'Destroy', suite_page_request_path(@suite, @page, request), data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Request', new_suite_page_request_path(@suite, @page)

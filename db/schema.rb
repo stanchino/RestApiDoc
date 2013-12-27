@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131224121010) do
+ActiveRecord::Schema.define(version: 20131227144713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "entities", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "uri"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "pages", force: true do |t|
     t.string   "name"
@@ -37,6 +45,19 @@ ActiveRecord::Schema.define(version: 20131224121010) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "requests", force: true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.string   "method"
+    t.integer  "entity_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "page_id"
+  end
+
+  add_index "requests", ["entity_id"], name: "index_requests_on_entity_id", using: :btree
+  add_index "requests", ["page_id"], name: "index_requests_on_page_id", using: :btree
 
   create_table "suites", force: true do |t|
     t.string   "name"

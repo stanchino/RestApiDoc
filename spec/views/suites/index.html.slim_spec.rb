@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "suites/index" do
   before(:each) do
     project = FactoryGirl.create :project
-    assign(:suites, [
+    project.suites = [
       stub_model(Suite,
         :name => "Name",
         :title => "Title",
@@ -20,13 +20,14 @@ describe "suites/index" do
         :order => 1,
         :project => project
       )
-    ])
+    ]
+    assign(:project, project)
   end
 
   it "renders a list of suites" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "ul>li>h3", /Title/, :count => 2
-    assert_select "ul>li>p", :text => "MyText".to_s, :count => 2
+    assert_select "h3", /Title/, :count => 2
+    assert_select "p", :text => "MyText".to_s, :count => 2
   end
 end

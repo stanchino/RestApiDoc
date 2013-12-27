@@ -1,0 +1,11 @@
+= simple_form_for([@suite, @page, @request]) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :title
+    = f.input :description
+    = f.input :method
+    = f.association :entity
+
+  .form-actions
+    = f.button :submit
