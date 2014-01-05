@@ -5,6 +5,8 @@
   h5
     = "#{request.method} #{request.entity.uri}"
     .right
+      = link_to raw('<small>New Assertion</small>'), new_suite_page_request_assertion_path(suite, page, request)
+      small |
       = link_to raw('<small>Edit</small>'), edit_suite_page_request_path(suite, page, request)
       small |
       = link_to raw('<small>Delete</small>'), suite_page_request_path(suite, page, request), :data => {:confirm => 'Are you sure?'}, :method => :delete
@@ -12,3 +14,4 @@
   p.small = request.title
   p = request.description
   p = request.body
+  = render :file => "assertions/index", :locals => { :request => request }

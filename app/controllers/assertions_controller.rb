@@ -1,10 +1,12 @@
 class AssertionsController < ApplicationController
+  before_filter :authenticate_user!, except: [:index, :show]
+  before_action :set_request, only: [:index, :new, :create]
   before_action :set_assertion, only: [:show, :edit, :update, :destroy]
 
   # GET /assertions
   # GET /assertions.json
   def index
-    @assertions = Assertion.all
+    @assertions = @request.assertions
   end
 
   # GET /assertions/1
@@ -14,7 +16,7 @@ class AssertionsController < ApplicationController
 
   # GET /assertions/new
   def new
-    @assertion = Assertion.new
+    @assertion = @request.assertions.new
   end
 
   # GET /assertions/1/edit
@@ -24,11 +26,11 @@ class AssertionsController < ApplicationController
   # POST /assertions
   # POST /assertions.json
   def create
-    @assertion = Assertion.new(assertion_params)
+    @assertion = @request.assertions.new(assertion_params)
 
     respond_to do |format|
       if @assertion.save
-        format.html { redirect_to @assertion, notice: 'Assertion was successfully created.' }
+        format.html { redirect_to @project, notice: 'Assertion was successfully created.' }
         format.json { render action: 'show', status: :created, location: @assertion }
       else
         format.html { render action: 'new' }
@@ -42,7 +44,7 @@ class AssertionsController < ApplicationController
   def update
     respond_to do |format|
       if @assertion.update(assertion_params)
-        format.html { redirect_to @assertion, notice: 'Assertion was successfully updated.' }
+        format.html { redirect_to @project, notice: 'Assertion was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -56,19 +58,30 @@ class AssertionsController < ApplicationController
   def destroy
     @assertion.destroy
     respond_to do |format|
-      format.html { redirect_to assertions_url }
+      format.html { redirect_to @project }
       format.json { head :no_content }
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def set_request
+      @request = Request.joins(:page => { :suite => :users }).where("users.id" => current_user.id, "suites.id" => params[:suite_id], "page_id" => params[:page_id], :id => params[:request_id]).readonly(false).first
+      @page = @request.page
+      @suite = @page.suite
+      @project = @suite.project
+    end
+
     def set_assertion
-      @assertion = Assertion.find(params[:id])
+      @assertion = Assertion.joins(:request => { :page => { :suite => :users } }).where("users.id" => current_user.id, "suites.id" => params[:suite_id], "pages.id" => params[:page_id], "request_id" => params[:request_id], :id => params[:id]).readonly(false).first
+      @request = @assertion.request
+      @page = @request.page
+      @suite = @page.suite
+      @project = @suite.project
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def assertion_params
-      params.require(:assertion).permit(:title, :description, :assignment, :expectation, :code)
+      params.require(:assertion).permit(:expectation, :condition, :expected, :assignment)
     end
 end

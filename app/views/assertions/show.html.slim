@@ -1,21 +1,16 @@
-p#notice = notice
-
-p
-  strong Title:
-  = @assertion.title
-p
-  strong Description:
-  = @assertion.description
-p
-  strong Assignment:
-  = @assertion.assignment
-p
-  strong Expectation:
-  = @assertion.expectation
-p
-  strong Code:
-  = @assertion.code
-
-= link_to 'Edit', edit_assertion_path(@assertion)
-'|
-= link_to 'Back', assertions_path
+- assertion ||= @assertion
+- request ||= assertion.request
+- page ||= request.page
+- suite ||= page.suite
+.row
+  .large-9.medium-9.small-9.columns
+    p
+      = "Expect #{assertion.expectation} to #{assertion.condition} #{assertion.expected}"
+      - if assertion.assignment.present?
+        = " and assign it to #{assertion.assignment}"
+  .large-3.medium-3.small-3.columns
+    = link_to 'Run', '#'
+    '|
+    = link_to 'Edit', edit_suite_page_request_assertion_path(suite, page, request, assertion)
+    '|
+    = link_to 'Destroy', suite_page_request_assertion_path(suite, page, request, assertion), data: {:confirm => 'Are you sure?'}, :method => :delete

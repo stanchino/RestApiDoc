@@ -4,31 +4,31 @@ describe AssertionsController do
   describe "routing" do
 
     it "routes to #index" do
-      get("/assertions").should route_to("assertions#index")
+      get("/suites/1/pages/2/requests/3/assertions").should route_to("assertions#index", :suite_id => "1", :page_id => "2", :request_id => "3")
     end
 
     it "routes to #new" do
-      get("/assertions/new").should route_to("assertions#new")
+      get("/suites/1/pages/2/requests/3/assertions/new").should route_to("assertions#new", :suite_id => "1", :page_id => "2", :request_id => "3")
     end
 
     it "routes to #show" do
-      get("/assertions/1").should route_to("assertions#show", :id => "1")
+      get("/suites/1/pages/2/requests/3/assertions/4").should route_to("assertions#show", :suite_id => "1", :page_id => "2", :request_id => "3", :id => "4")
     end
 
     it "routes to #edit" do
-      get("/assertions/1/edit").should route_to("assertions#edit", :id => "1")
+      get("/suites/1/pages/2/requests/3/assertions/4/edit").should route_to("assertions#edit", :suite_id => "1", :page_id => "2", :request_id => "3", :id => "4")
     end
 
     it "routes to #create" do
-      post("/assertions").should route_to("assertions#create")
+      post("/suites/1/pages/2/requests/3/assertions").should route_to("assertions#create", :suite_id => "1", :page_id => "2", :request_id => "3")
     end
 
     it "routes to #update" do
-      put("/assertions/1").should route_to("assertions#update", :id => "1")
+      put("/suites/1/pages/2/requests/3/assertions/4").should route_to("assertions#update", :suite_id => "1", :page_id => "2", :request_id => "3", :id => "4")
     end
 
     it "routes to #destroy" do
-      delete("/assertions/1").should route_to("assertions#destroy", :id => "1")
+      delete("/suites/1/pages/2/requests/3/assertions/4").should route_to("assertions#destroy", :suite_id => "1", :page_id => "2", :request_id => "3", :id => "4")
     end
 
   end

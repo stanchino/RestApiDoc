@@ -12,6 +12,8 @@ describe "pages/new" do
       :order => 1,
       :suite => @suite
     ).as_new_record)
+    assign(:project, project)
+    assign(:suite, @suite)
   end
 
   it "renders new page form" do

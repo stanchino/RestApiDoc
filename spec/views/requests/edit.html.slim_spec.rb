@@ -5,6 +5,7 @@ describe "requests/edit" do
     project = FactoryGirl.create :project
     @suite = project.suites.create!(name: "MySuite")
     @page = @suite.pages.create!(name: "MyPage")
+    assign(:project, project)
     assign(:suite, @suite)
     assign(:page, @page)
     @request = assign(:request, stub_model(Request,
@@ -20,10 +21,11 @@ describe "requests/edit" do
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "form[action=?][method=?]", suite_page_request_path(@suite, @page, @request), "post" do
-      #assert_select "input#suite_page_request_title[name=?]", "request[title]"
-      #assert_select "textarea#suite_page_request_description[name=?]", "request[description]"
-      #assert_select "input#suite_page_request_method[name=?]", "request[method]"
-      #assert_select "input#suite_page_request_entity[name=?]", "request[entity]"
+      assert_select "select#request_method[name=?]", "request[method]"
+      assert_select "input#request_entity_attributes_uri[name=?]", "request[entity_attributes][uri]"
+      assert_select "textarea#request_body[name=?]", "request[body]"
+      assert_select "input#request_title[name=?]", "request[title]"
+      assert_select "textarea#request_description[name=?]", "request[description]"
     end
   end
 end

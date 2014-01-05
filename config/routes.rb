@@ -2,11 +2,12 @@ RestApiDoc::Application.routes.draw do
   root to: "projects#index"
 
   devise_for :users
-  resources :assertions
 
   resources :suites do
     resources :pages do
-      resources :requests
+      resources :requests do
+        resources :assertions
+      end
     end
   end
 

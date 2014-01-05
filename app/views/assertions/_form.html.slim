@@ -1,12 +1,13 @@
-= simple_form_for(@assertion) do |f|
+= simple_form_for([@suite, @page, @request, @assertion]) do |f|
   = f.error_notification
 
   .form-inputs
-    = f.input :title
-    = f.input :description
+    = f.input :expectation, :collection => [["Response Status", "status"], ["Response Header", "header"], ["Response Body", "body"]],
+      :prompt => "Select"
+    = f.input :condition, :collection => [["Equal", "equal"], ["Match", "match"]],
+      :prompt => "Select"
+    = f.input :expected
     = f.input :assignment
-    = f.input :expectation
-    = f.input :code
 
   .form-actions
     = f.button :submit

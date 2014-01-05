@@ -2,7 +2,7 @@ h1 Editing assertion
 
 == render 'form'
 
-= link_to 'Show', @assertion
+= link_to 'Show', suite_page_request_assertion_path(@suite, @page, @request, @assertion)
 '|
-= link_to 'Back', assertions_path
+= link_to 'Back', @project
 

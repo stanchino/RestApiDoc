@@ -19,44 +19,55 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 describe AssertionsController do
+  login_user
 
   # This should return the minimal set of attributes required to create a valid
-  # Assertion. As you add validations to Assertion, be sure to
+  # @request_object.assertions. As you add validations to Assertion, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "title" => "MyString" } }
+  let(:valid_attributes) { { "expectation" => "status", "condition" => "equal", "expected" => "200" } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # AssertionsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  let(:valid_request) { {} }
+
+  before do
+    @project = subject.current_user.projects.create!(:name => "MyProject")
+    @suite = subject.current_user.suites.create!(:name => "MySuite", :project => @project)
+    @page = @suite.pages.create!(:name => "MyPage")
+    @request_object = @page.requests.create!(:title => "MyRequest")
+    valid_request.merge!({:suite_id => @suite.to_param, :page_id => @page.to_param, :request_id => @request_object.to_param})
+  end
+
   describe "GET index" do
     it "assigns all assertions as @assertions" do
-      assertion = Assertion.create! valid_attributes
-      get :index, {}, valid_session
+      assertion = @request_object.assertions.create! valid_attributes
+      get :index, valid_request, valid_session
       assigns(:assertions).should eq([assertion])
     end
   end
 
   describe "GET show" do
     it "assigns the requested assertion as @assertion" do
-      assertion = Assertion.create! valid_attributes
-      get :show, {:id => assertion.to_param}, valid_session
+      assertion = @request_object.assertions.create! valid_attributes
+      get :show, valid_request.merge({:id => assertion.to_param}), valid_session
       assigns(:assertion).should eq(assertion)
     end
   end
 
   describe "GET new" do
     it "assigns a new assertion as @assertion" do
-      get :new, {}, valid_session
+      get :new, valid_request, valid_session
       assigns(:assertion).should be_a_new(Assertion)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested assertion as @assertion" do
-      assertion = Assertion.create! valid_attributes
-      get :edit, {:id => assertion.to_param}, valid_session
+      assertion = @request_object.assertions.create! valid_attributes
+      get :edit, valid_request.merge({:id => assertion.to_param}), valid_session
       assigns(:assertion).should eq(assertion)
     end
   end
@@ -65,19 +76,19 @@ describe AssertionsController do
     describe "with valid params" do
       it "creates a new Assertion" do
         expect {
-          post :create, {:assertion => valid_attributes}, valid_session
+          post :create, valid_request.merge({:assertion => valid_attributes}), valid_session
         }.to change(Assertion, :count).by(1)
       end
 
       it "assigns a newly created assertion as @assertion" do
-        post :create, {:assertion => valid_attributes}, valid_session
+        post :create, valid_request.merge({:assertion => valid_attributes}), valid_session
         assigns(:assertion).should be_a(Assertion)
         assigns(:assertion).should be_persisted
       end
 
       it "redirects to the created assertion" do
-        post :create, {:assertion => valid_attributes}, valid_session
-        response.should redirect_to(Assertion.last)
+        post :create, valid_request.merge({:assertion => valid_attributes}), valid_session
+        response.should redirect_to(@project)
       end
     end
 
@@ -85,14 +96,14 @@ describe AssertionsController do
       it "assigns a newly created but unsaved assertion as @assertion" do
         # Trigger the behavior that occurs when invalid params are submitted
         Assertion.any_instance.stub(:save).and_return(false)
-        post :create, {:assertion => { "title" => "invalid value" }}, valid_session
+        post :create, valid_request.merge({:assertion => { "title" => "invalid value" }}), valid_session
         assigns(:assertion).should be_a_new(Assertion)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Assertion.any_instance.stub(:save).and_return(false)
-        post :create, {:assertion => { "title" => "invalid value" }}, valid_session
+        post :create, valid_request.merge({:assertion => { "title" => "invalid value" }}), valid_session
         response.should render_template("new")
       end
     end
@@ -101,42 +112,42 @@ describe AssertionsController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested assertion" do
-        assertion = Assertion.create! valid_attributes
+        assertion = @request_object.assertions.create! valid_attributes
         # Assuming there are no other assertions in the database, this
         # specifies that the Assertion created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Assertion.any_instance.should_receive(:update).with({ "title" => "MyString" })
-        put :update, {:id => assertion.to_param, :assertion => { "title" => "MyString" }}, valid_session
+        Assertion.any_instance.should_receive(:update).with(valid_attributes)
+        put :update, valid_request.merge({:id => assertion.to_param, :assertion => valid_attributes}), valid_session
       end
 
       it "assigns the requested assertion as @assertion" do
-        assertion = Assertion.create! valid_attributes
-        put :update, {:id => assertion.to_param, :assertion => valid_attributes}, valid_session
+        assertion = @request_object.assertions.create! valid_attributes
+        put :update, valid_request.merge({:id => assertion.to_param, :assertion => valid_attributes}), valid_session
         assigns(:assertion).should eq(assertion)
       end
 
       it "redirects to the assertion" do
-        assertion = Assertion.create! valid_attributes
-        put :update, {:id => assertion.to_param, :assertion => valid_attributes}, valid_session
-        response.should redirect_to(assertion)
+        assertion = @request_object.assertions.create! valid_attributes
+        put :update, valid_request.merge({:id => assertion.to_param, :assertion => valid_attributes}), valid_session
+        response.should redirect_to(@project)
       end
     end
 
     describe "with invalid params" do
       it "assigns the assertion as @assertion" do
-        assertion = Assertion.create! valid_attributes
+        assertion = @request_object.assertions.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Assertion.any_instance.stub(:save).and_return(false)
-        put :update, {:id => assertion.to_param, :assertion => { "title" => "invalid value" }}, valid_session
+        put :update, valid_request.merge({:id => assertion.to_param, :assertion => { "title" => "invalid value" }}), valid_session
         assigns(:assertion).should eq(assertion)
       end
 
       it "re-renders the 'edit' template" do
-        assertion = Assertion.create! valid_attributes
+        assertion = @request_object.assertions.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Assertion.any_instance.stub(:save).and_return(false)
-        put :update, {:id => assertion.to_param, :assertion => { "title" => "invalid value" }}, valid_session
+        put :update, valid_request.merge({:id => assertion.to_param, :assertion => { "title" => "invalid value" }}), valid_session
         response.should render_template("edit")
       end
     end
@@ -144,16 +155,16 @@ describe AssertionsController do
 
   describe "DELETE destroy" do
     it "destroys the requested assertion" do
-      assertion = Assertion.create! valid_attributes
+      assertion = @request_object.assertions.create! valid_attributes
       expect {
-        delete :destroy, {:id => assertion.to_param}, valid_session
+        delete :destroy, valid_request.merge({:id => assertion.to_param}), valid_session
       }.to change(Assertion, :count).by(-1)
     end
 
     it "redirects to the assertions list" do
-      assertion = Assertion.create! valid_attributes
-      delete :destroy, {:id => assertion.to_param}, valid_session
-      response.should redirect_to(assertions_url)
+      assertion = @request_object.assertions.create! valid_attributes
+      delete :destroy, valid_request.merge({:id => assertion.to_param}), valid_session
+      response.should redirect_to(@project)
     end
   end
 

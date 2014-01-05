@@ -12,6 +12,8 @@ describe "pages/edit" do
       :order => 1,
       :suite => @suite
     ))
+    assign(:project, project)
+    assign(:suite, @suite)
   end
 
   it "renders the edit page form" do
