@@ -5,6 +5,7 @@ describe "requests/show" do
     project = FactoryGirl.create :project
     suite = project.suites.create!(name: "MySuite")
     page = suite.pages.create!(name: "MyPage")
+    assign(:project, project)
     assign(:suite, suite)
     assign(:page, page)
     @request = assign(:request, stub_model(Request,

@@ -20,6 +20,7 @@ describe "assertions/index" do
         :request => request
       )
     ]
+    assign(:project, project)
     assign(:suite, suite)
     assign(:page, page)
     assign(:request, request)

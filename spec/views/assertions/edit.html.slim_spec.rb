@@ -15,7 +15,8 @@ describe "assertions/edit" do
       :description => "MyText",
       :assignment => "MyString",
       :expectation => "MyString",
-      :code => "MyText"
+      :code => "MyText",
+      :request => @request
     ))
   end
 

@@ -10,7 +10,7 @@
         = " and assign it to #{assertion.assignment}"
   .large-3.medium-3.small-3.columns
     = link_to 'Run', '#'
-    '|
+    span |
     = link_to 'Edit', edit_suite_page_request_assertion_path(suite, page, request, assertion)
-    '|
+    span |
     = link_to 'Destroy', suite_page_request_assertion_path(suite, page, request, assertion), data: {:confirm => 'Are you sure?'}, :method => :delete

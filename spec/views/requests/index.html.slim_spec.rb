@@ -28,8 +28,8 @@ describe "requests/index" do
   it "renders a list of requests" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "h5", /Method URI/, :count => 2
-    assert_select "p.small", /Title/, :count => 2
+    assert_select "h5", /Title/, :count => 2
+    assert_select "h6", /Method URI/, :count => 2
     assert_select "p", :text => "MyText".to_s, :count => 2
   end
 end

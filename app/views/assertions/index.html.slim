@@ -1,6 +1,7 @@
 - request ||= @request
 - page ||= request.page
 - suite ||= page.suite
-h6 Assertions
-- request.assertions.each do |assertion|
-  = render :file => "assertions/show", :locals => {:assertion => assertion}
+- if request.assertions.any?
+  h6 Assertions
+  - request.assertions.each do |assertion|
+    = render :file => "assertions/show", :locals => {:assertion => assertion}

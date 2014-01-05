@@ -15,6 +15,7 @@ describe "assertions/new" do
       :condition => "equal",
       :expected => "200",
       :assignment => "MyString",
+      :request => @request
     ))
   end
 

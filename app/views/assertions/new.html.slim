@@ -1,5 +1,6 @@
+- assertion ||= @assertion
 h1 New assertion
 
-== render 'form'
+== render 'assertions/form', :assertion => assertion
 
 = link_to 'Back', @project

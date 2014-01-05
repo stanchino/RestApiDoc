@@ -12,7 +12,8 @@ describe "requests/new" do
       :title => "MyString",
       :description => "MyText",
       :method => "MyString",
-      :entity => nil
+      :entity => nil,
+      :page => @page
     ).as_new_record)
   end
 

@@ -1,6 +1,10 @@
-= simple_form_for([@suite, @page, @request, @assertion]) do |f|
-  = f.error_notification
+- assertion ||= @assertion
+- request ||= assertion.request
+- page ||= request.page
+- suite ||= page.suite
 
+= simple_form_for([suite, page, request, assertion]) do |f|
+  = f.error_notification
   .form-inputs
     = f.input :expectation, :collection => [["Response Status", "status"], ["Response Header", "header"], ["Response Body", "body"]],
       :prompt => "Select"
@@ -8,6 +12,5 @@
       :prompt => "Select"
     = f.input :expected
     = f.input :assignment
-
   .form-actions
     = f.button :submit
