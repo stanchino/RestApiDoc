@@ -2,6 +2,6 @@
 - page ||= request.page
 - suite ||= page.suite
 - if request.assertions.any?
-  h6 Assertions
+  h5 Assertions:
   - request.assertions.each do |assertion|
     = render :file => "assertions/show", :locals => {:assertion => assertion}

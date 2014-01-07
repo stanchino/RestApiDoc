@@ -1,17 +1,9 @@
 - request ||= @request
 - page = request.page
 - suite = page.suite
-.panel.callout
-  h5 
-    = request.title
-    .right
-      = link_to raw('<small>New Assertion</small>'), new_suite_page_request_assertion_path(suite, page, request)
-      small |
-      = link_to raw('<small>Edit</small>'), edit_suite_page_request_path(suite, page, request)
-      small |
-      = link_to raw('<small>Delete</small>'), suite_page_request_path(suite, page, request), :data => {:confirm => 'Are you sure?'}, :method => :delete
-  hr
-  p = request.description
-  h6 = "#{request.method} #{request.entity.uri}"
-  p = request.body
-  = render :file => "assertions/index", :locals => { :request => request }
+- project = suite.project
+
+- if page.requests.any?
+  .panel.callout
+    = render :partial => "requests/show", :locals => { :project => project, :suite => suite, :page => page, :request => request }
+    = render :file => "assertions/index", :locals => { :project => project, :suite => suite, :page => page, :request => request }

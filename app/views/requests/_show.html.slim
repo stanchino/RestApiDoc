@@ -1,0 +1,12 @@
+h3
+  = request.title
+  .right
+    = link_to raw('<small>New Assertion</small>'), new_suite_page_request_assertion_path(suite, page, request)
+    small |
+    = link_to raw('<small>Edit</small>'), edit_suite_page_request_path(suite, page, request)
+    small |
+    = link_to raw('<small>Delete</small>'), suite_page_request_path(suite, page, request), :data => {:confirm => 'Are you sure?'}, :method => :delete
+hr
+p = request.description
+h4 = "#{request.method} #{request.entity.uri}"
+p = request.body

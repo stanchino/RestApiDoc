@@ -12,7 +12,13 @@ RestApiDoc::Application.routes.draw do
   end
 
   resources :projects do
-    resources :suites
+    resources :suites do
+      resources :pages do
+        resources :requests do
+          resources :assertions
+        end
+      end
+    end
   end
 
 

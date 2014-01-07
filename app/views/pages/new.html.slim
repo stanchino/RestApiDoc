@@ -1,5 +1,13 @@
-h4 New page
+- suite ||= @suite
+- project ||= suite.project
+
+br
+ul.breadcrumbs
+  li = link_to "Home", root_path
+  li = link_to project.title, project_path(project)
+  li = link_to suite.title, project_suite_path(project, suite)
+  li New Page
+
+h2 Add page
 
 == render 'form'
-
-= link_to 'Back', @project

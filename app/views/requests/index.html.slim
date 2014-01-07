@@ -1,4 +1,3 @@
 - page ||= @page
-.large-12.medium-12.small-12.columns
-  - page.requests.each do |request|
-    = render :file => "requests/show", :locals => {:request => request}
+- page.requests.each do |request|
+  = render :file => "requests/show", :locals => {:request => request}

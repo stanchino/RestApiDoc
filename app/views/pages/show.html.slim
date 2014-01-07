@@ -1,12 +1,12 @@
 - page ||= @page
 - suite = page.suite
-h4
-  = page.title
-  .right
-    = link_to raw('<small>Add Request</small>'), new_suite_page_request_path(suite, page)
-    small |
-    = link_to raw('<small>Edit</small>'), edit_suite_page_path(suite, page)
-    small |
-    = link_to raw('<small>Delete</small>'), suite_page_path(suite, page), :data => {:confirm => 'Are you sure?'}, :method => :delete
-p = page.description
-= render :file => "requests/index", :locals => {:page => page}
+- project = suite.project
+br
+ul.breadcrumbs
+  li = link_to "Home", root_path
+  li = link_to project.title, project_path(project)
+  li = link_to suite.title, project_suite_path(project, suite)
+  li = page.title
+
+= render :partial => "pages/title", :locals => { :project => project, :suite => suite, :page => page }
+= render :file => "requests/index", :locals => { :project => project, :suite => suite, :page => page}

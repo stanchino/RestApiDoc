@@ -1,8 +1,11 @@
-h1 Editing suite
+- suite ||= @suite
+- project = suite.project
+br
+ul.breadcrumbs
+  li = link_to "Home", root_path
+  li = link_to project.title, project_path(project)
+  li = link_to suite.title, project_suite_path(project, suite)
+  li Edit Suite
 
+h2 Editing suite "#{suite.title}"
 == render 'form'
-
-= link_to 'Show', @suite
-'|
-= link_to 'Back', suites_path
-

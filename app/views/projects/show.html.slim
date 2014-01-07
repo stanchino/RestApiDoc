@@ -1,11 +1,15 @@
 - project ||= @project
-h2
-  = project.title
-  .right
-    = link_to raw('<small>Add Suite</small>'), new_project_suite_path(project)
-    small |
-    = link_to raw('<small>Edit</small>'), edit_project_path(project)
-    small |
-    = link_to raw('<small>Delete</small>'), project_path(project), :data => {:confirm => 'Are you sure?'}, :method => :delete
-p = @project.description
-= render :file => "suites/index", locals: {project: @project}
+br
+ul.breadcrumbs
+  li = link_to "Home", root_path
+  li = project.title
+
+= render :partial => "projects/title", :locals => { :project => project }
+.large-12.medium-12.small-12.columns
+  - if @project.suites.any?
+    - project.suites.each do |suite|
+      h3
+        = link_to suite.title, project_suite_path(project, suite)
+      p = suite.description
+  hr
+  h6 = link_to "Add New Suite", new_project_suite_path(project)

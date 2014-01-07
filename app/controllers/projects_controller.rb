@@ -5,6 +5,7 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
+    @projects = (Project.published + current_user.projects).sort_by(&:created_at)
   end
 
   # GET /projects/1

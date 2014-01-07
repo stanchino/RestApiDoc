@@ -1,0 +1,10 @@
+h2
+  = page.title
+  .right
+    = link_to raw('<small>Add Request</small>'), new_suite_page_request_path(suite, page)
+    small |
+    = link_to raw('<small>Edit</small>'), edit_suite_page_path(suite, page)
+    small |
+    = link_to raw('<small>Delete</small>'), suite_page_path(suite, page), :data => {:confirm => 'Are you sure?'}, :method => :delete
+hr
+p = page.description

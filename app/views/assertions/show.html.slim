@@ -4,7 +4,7 @@
 - suite ||= page.suite
 .row
   .large-9.medium-9.small-9.columns
-    p
+    h6
       = "Expect #{assertion.expectation} to #{assertion.condition} #{assertion.expected}"
       - if assertion.assignment.present?
         = " and assign it to #{assertion.assignment}"
