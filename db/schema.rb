@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140105094521) do
+ActiveRecord::Schema.define(version: 20140107215858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,7 +38,6 @@ ActiveRecord::Schema.define(version: 20140105094521) do
   end
 
   create_table "pages", force: true do |t|
-    t.string   "name"
     t.string   "title"
     t.text     "description"
     t.boolean  "published"
@@ -51,7 +50,6 @@ ActiveRecord::Schema.define(version: 20140105094521) do
   add_index "pages", ["suite_id"], name: "index_pages_on_suite_id", using: :btree
 
   create_table "projects", force: true do |t|
-    t.string   "name"
     t.string   "title"
     t.text     "description"
     t.boolean  "published"
@@ -62,19 +60,19 @@ ActiveRecord::Schema.define(version: 20140105094521) do
   create_table "requests", force: true do |t|
     t.string   "title"
     t.text     "description"
-    t.string   "method"
+    t.string   "action"
     t.integer  "entity_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "page_id"
     t.text     "body"
+    t.string   "uri"
   end
 
   add_index "requests", ["entity_id"], name: "index_requests_on_entity_id", using: :btree
   add_index "requests", ["page_id"], name: "index_requests_on_page_id", using: :btree
 
   create_table "suites", force: true do |t|
-    t.string   "name"
     t.string   "title"
     t.text     "description"
     t.boolean  "published"

@@ -2,26 +2,16 @@ require 'spec_helper'
 
 describe "requests/show" do
   before(:each) do
-    project = FactoryGirl.create :project
-    suite = project.suites.create!(name: "MySuite")
-    page = suite.pages.create!(name: "MyPage")
-    assign(:project, project)
-    assign(:suite, suite)
-    assign(:page, page)
-    @request = assign(:request, stub_model(Request,
-      :title => "Title",
-      :description => "MyText",
-      :method => "Method",
-      :entity => stub_model(Entity, :uri => "URI"),
-      :page => page
-    ))
+    @project = assign(:project, FactoryGirl.create(:project))
+    @suite = assign(:suite, @project.suites.create(FactoryGirl.attributes_for(:suite)))
+    @page = assign(:page, @suite.pages.create(FactoryGirl.attributes_for(:page)))
+    @request = assign(:request, @page.requests.create(FactoryGirl.attributes_for(:request)))
   end
 
   it "renders attributes in <p>" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/Title/)
-    rendered.should match(/MyText/)
-    rendered.should match(/Method/)
+    assert_select "h3", /#{@request.title}/, :count => 1
+    assert_select "p", @request.description, :count => 1
   end
 end

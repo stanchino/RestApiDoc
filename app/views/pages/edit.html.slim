@@ -1,8 +1,13 @@
-h4 Editing page
+- project ||= @project
+- suite ||= @suite
+- page ||= @page
+br
+ul.breadcrumbs
+  li = link_to "Home", root_url
+  li = link_to project.title, project_url(project)
+  li = link_to suite.title, project_suite_url(project, suite)
+  li = link_to page.title, project_suite_page_url(project, suite, page)
+  li Edit Page
 
+h2 Editing page "#{page.title}"
 == render 'form'
-
-= link_to 'Show', suite_page_path(@suite, @page)
-'|
-= link_to 'Back', @project
-

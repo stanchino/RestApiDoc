@@ -24,7 +24,7 @@ describe SuitesController do
   # This should return the minimal set of attributes required to create a valid
   # Suite. As you add validations to Suite, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "name" => "MyString" } }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:suite) }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -34,7 +34,7 @@ describe SuitesController do
   let(:valid_request) { {} }
 
   before do
-    @project = subject.current_user.projects.create(:title => "MyProject")
+    @project = subject.current_user.projects.create(FactoryGirl.attributes_for(:project))
     valid_request.merge!({:project_id => @project.to_param})
   end
 
@@ -128,14 +128,14 @@ describe SuitesController do
       it "assigns a newly created but unsaved suite as @suite" do
         # Trigger the behavior that occurs when invalid params are submitted
         Suite.any_instance.stub(:save).and_return(false)
-        post :create, valid_request.merge({:suite => { "name" => "invalid value" }}), valid_session
+        post :create, valid_request.merge({:suite => { "title" => "invalid value" }}), valid_session
         assigns(:suite).should be_a_new(Suite)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Suite.any_instance.stub(:save).and_return(false)
-        post :create, valid_request.merge({:suite => { "name" => "invalid value" }}), valid_session
+        post :create, valid_request.merge({:suite => { "title" => "invalid value" }}), valid_session
         response.should render_template("new")
       end
     end
@@ -157,8 +157,8 @@ describe SuitesController do
         # specifies that the Suite created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Suite.any_instance.should_receive(:update).with({ "name" => "MyString" })
-        put :update, valid_request.merge({:suite => { "name" => "MyString" }}), valid_session
+        Suite.any_instance.should_receive(:update).with({ "title" => "MyString" })
+        put :update, valid_request.merge({:suite => { "title" => "MyString" }}), valid_session
       end
 
       it "assigns the requested suite as @suite" do
@@ -176,14 +176,14 @@ describe SuitesController do
       it "assigns the suite as @suite" do
         # Trigger the behavior that occurs when invalid params are submitted
         Suite.any_instance.stub(:save).and_return(false)
-        put :update, valid_request.merge({:suite => { "name" => "invalid value" }}), valid_session
+        put :update, valid_request.merge({:suite => { "title" => "invalid value" }}), valid_session
         assigns(:suite).should eq(@suite)
       end
 
       it "re-renders the 'edit' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Suite.any_instance.stub(:save).and_return(false)
-        put :update, valid_request.merge({:suite => { "name" => "invalid value" }}), valid_session
+        put :update, valid_request.merge({:suite => { "title" => "invalid value" }}), valid_session
         response.should render_template("edit")
       end
     end

@@ -4,7 +4,8 @@ describe "Pages" do
   describe "GET /pages" do
     before do
       login_user
-      @suite = @user.suites.create!(name: "MySuite")
+      @project = @user.projects.create(FactoryGirl.attributes_for(:project))
+      @suite = @user.suites.create(FactoryGirl.attributes_for(:suite).merge({:project => @project}))
     end
 
     it "works! (now write some real specs)" do

@@ -34,9 +34,9 @@ describe RequestsController do
   let(:valid_request) { {} }
 
   before do
-    @project = subject.current_user.projects.create!(:name => "MyProject")
-    @suite = subject.current_user.suites.create!(:name => "MySuite", :project => @project)
-    @page = @suite.pages.create!(:name => "MyPage")
+    @project = subject.current_user.projects.create!(FactoryGirl.attributes_for(:project))
+    @suite = subject.current_user.suites.create!(FactoryGirl.attributes_for(:suite).merge({:project => @project}))
+    @page = @suite.pages.create!(FactoryGirl.attributes_for(:page))
     valid_request.merge!({:suite_id => @suite.to_param, :page_id => @page.to_param})
   end
 

@@ -2,11 +2,10 @@
 
 FactoryGirl.define do
   factory :page do
-    name "MyString"
-    title "MyString"
-    description "MyText"
+    sequence(:title) { |i| "Page ##{i}" }
+    sequence(:description) { |i| "Page #{i} description" }
     published false
-    order 1
+    sequence(:order)
     suite nil
   end
 end

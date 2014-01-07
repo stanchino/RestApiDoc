@@ -1,10 +1,10 @@
 - suite ||= @suite
-- project = suite.project
+- project ||= @project
 br
 ul.breadcrumbs
-  li = link_to "Home", root_path
-  li = link_to project.title, project_path(project)
-  li = link_to suite.title, project_suite_path(project, suite)
+  li = link_to "Home", root_url
+  li = link_to project.title, project_url(project)
+  li = link_to suite.title, project_suite_url(project, suite)
   li Edit Suite
 
 h2 Editing suite "#{suite.title}"

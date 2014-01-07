@@ -1,8 +1,8 @@
 h2
   = project.title
   .right
-    = link_to raw('<small>Edit</small>'), edit_project_path(project)
+    = link_to raw('<small>Edit</small>'), edit_project_url(project)
     small |
-    = link_to raw('<small>Delete</small>'), project_path(project), :data => {:confirm => 'Are you sure?'}, :method => :delete
+    = link_to raw('<small>Delete</small>'), project_url(project), :data => {:confirm => 'Are you sure?'}, :method => :delete
 hr
 p = project.description

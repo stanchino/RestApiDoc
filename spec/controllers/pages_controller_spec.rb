@@ -24,7 +24,7 @@ describe PagesController do
   # This should return the minimal set of attributes required to create a valid
   # Page. As you add validations to Page, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "name" => "MyString" } }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:page) }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -32,8 +32,8 @@ describe PagesController do
   let(:valid_session) { {} }
   let(:valid_request) { {} }
   before do
-    @project = subject.current_user.projects.create!(name: "MyProject")
-    @suite = subject.current_user.suites.create!(:name => "MySuite", :project => @project)
+    @project = subject.current_user.projects.create!(FactoryGirl.attributes_for(:project))
+    @suite = subject.current_user.suites.create!(FactoryGirl.attributes_for(:suite).merge({:project => @project}))
     valid_request.merge!({:suite_id => @suite.to_param})
   end
 
@@ -93,14 +93,14 @@ describe PagesController do
       it "assigns a newly created but unsaved page as @page" do
         # Trigger the behavior that occurs when invalid params are submitted
         Page.any_instance.stub(:save).and_return(false)
-        post :create, valid_request.merge({:page => { "name" => "invalid value" }}), valid_session
+        post :create, valid_request.merge({:page => { "title" => "invalid value" }}), valid_session
         assigns(:page).should be_a_new(Page)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Page.any_instance.stub(:save).and_return(false)
-        post :create, valid_request.merge({:page => { "name" => "invalid value" }}), valid_session
+        post :create, valid_request.merge({:page => { "title" => "invalid value" }}), valid_session
         response.should render_template("new")
       end
     end
@@ -114,8 +114,8 @@ describe PagesController do
         # specifies that the @suite.pages.created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Page.any_instance.should_receive(:update).with({ "name" => "MyString" })
-        put :update, valid_request.merge({:id => page.to_param, :page => { "name" => "MyString" }}), valid_session
+        Page.any_instance.should_receive(:update).with({ "title" => "MyString" })
+        put :update, valid_request.merge({:id => page.to_param, :page => { "title" => "MyString" }}), valid_session
       end
 
       it "assigns the requested page as @page" do
@@ -136,7 +136,7 @@ describe PagesController do
         page = @suite.pages.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Page.any_instance.stub(:save).and_return(false)
-        put :update, valid_request.merge({:id => page.to_param, :page => { "name" => "invalid value" }}), valid_session
+        put :update, valid_request.merge({:id => page.to_param, :page => { "title" => "invalid value" }}), valid_session
         assigns(:page).should eq(page)
       end
 
@@ -144,7 +144,7 @@ describe PagesController do
         page = @suite.pages.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Page.any_instance.stub(:save).and_return(false)
-        put :update, valid_request.merge({:id => page.to_param, :page => { "name" => "invalid value" }}), valid_session
+        put :update, valid_request.merge({:id => page.to_param, :page => { "title" => "invalid value" }}), valid_session
         response.should render_template("edit")
       end
     end

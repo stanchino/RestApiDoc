@@ -1,13 +1,13 @@
+- project ||= @project
+- suite ||= @suite
+- page ||= @page
 - request ||= @request
-- page ||= request.page
-- suite ||= page.suite
-= simple_form_for([suite, page, request]) do |f|
+= simple_form_for([project, suite, page, request]) do |f|
   = f.error_notification
 
   .form-inputs
-    = f.input :method, :collection => [:OPTIONS, :GET, :POST, :PUT, :PATCH, :DELETE]
-    = f.simple_fields_for :entity, request.entity || request.build_entity do |e|
-      = e.input :uri
+    = f.input :action, :collection => [:OPTIONS, :GET, :POST, :PUT, :PATCH, :DELETE]
+    = f.input :uri
     = f.input :body
     = f.input :title
     = f.input :description

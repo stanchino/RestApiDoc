@@ -1,7 +1,7 @@
 - project ||= @project
 br
 ul.breadcrumbs
-  li = link_to "Home", root_path
+  li = link_to "Home", root_url
   li = project.title
 
 = render :partial => "projects/title", :locals => { :project => project }
@@ -9,7 +9,6 @@ ul.breadcrumbs
   - if @project.suites.any?
     - project.suites.each do |suite|
       h3
-        = link_to suite.title, project_suite_path(project, suite)
-      p = suite.description
+        = link_to suite.title, project_suite_url(project, suite)
   hr
-  h6 = link_to "Add New Suite", new_project_suite_path(project)
+  h6 = link_to "Add New Suite", new_project_suite_url(project)

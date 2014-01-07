@@ -1,8 +1,16 @@
-h1 Editing request
+- project ||= @project
+- suite ||= @suite
+- page ||= @page
+- request ||= @request
+br
+ul.breadcrumbs
+  li = link_to "Home", root_url
+  li = link_to project.title, project_url(project)
+  li = link_to suite.title, project_suite_url(project, suite)
+  li = link_to page.title, project_suite_page_url(project, suite, page)
+  li = link_to request.title, project_suite_page_request_url(project, suite, page, request)
+  li Edit Request
 
+h2 Edit Request
 == render 'form'
-
-= link_to 'Show', suite_page_request_path(@suite, @page, @request)
-'|
-= link_to 'Back', @project
 

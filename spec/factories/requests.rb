@@ -2,9 +2,10 @@
 
 FactoryGirl.define do
   factory :request do
-    title "MyString"
-    description "MyText"
-    "method" "MyString"
-    entity nil
+    sequence(:title) { |i| "Request ##{i}" }
+    sequence(:description) { |i| "Request #{i} description" }
+    sequence(:uri) { |i| "URI-#{i}" }
+    body ""
+    action "GET"
   end
 end

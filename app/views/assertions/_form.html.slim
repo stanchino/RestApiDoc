@@ -1,9 +1,10 @@
+- project ||= @project
+- suite ||= @suite
+- page ||= @page
+- request ||= @request
 - assertion ||= @assertion
-- request ||= assertion.request
-- page ||= request.page
-- suite ||= page.suite
 
-= simple_form_for([suite, page, request, assertion]) do |f|
+= simple_form_for([project, suite, page, request, assertion]) do |f|
   = f.error_notification
   .form-inputs
     = f.input :expectation, :collection => [["Response Status", "status"], ["Response Header", "header"], ["Response Body", "body"]],

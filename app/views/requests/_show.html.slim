@@ -8,5 +8,5 @@ h3
     = link_to raw('<small>Delete</small>'), suite_page_request_path(suite, page, request), :data => {:confirm => 'Are you sure?'}, :method => :delete
 hr
 p = request.description
-h4 = "#{request.method} #{request.entity.uri}"
+h4 = "#{request.action} #{request.uri}"
 p = request.body

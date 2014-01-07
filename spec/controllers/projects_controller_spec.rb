@@ -24,7 +24,7 @@ describe ProjectsController do
   # This should return the minimal set of attributes required to create a valid
   # Project. As you add validations to Project, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "name" => "MyString" } }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:project) }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -87,14 +87,14 @@ describe ProjectsController do
       it "assigns a newly created but unsaved project as @project" do
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
-        post :create, {:project => { "name" => "invalid value" }}, valid_session
+        post :create, {:project => { "title" => "invalid value" }}, valid_session
         assigns(:project).should be_a_new(Project)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
-        post :create, {:project => { "name" => "invalid value" }}, valid_session
+        post :create, {:project => { "title" => "invalid value" }}, valid_session
         response.should render_template("new")
       end
     end
@@ -108,8 +108,8 @@ describe ProjectsController do
         # specifies that the Project created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Project.any_instance.should_receive(:update).with({ "name" => "MyString" })
-        put :update, {:id => project.to_param, :project => { "name" => "MyString" }}, valid_session
+        Project.any_instance.should_receive(:update).with({ "title" => "MyString" })
+        put :update, {:id => project.to_param, :project => { "title" => "MyString" }}, valid_session
       end
 
       it "assigns the requested project as @project" do
@@ -130,7 +130,7 @@ describe ProjectsController do
         project = subject.current_user.projects.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
-        put :update, {:id => project.to_param, :project => { "name" => "invalid value" }}, valid_session
+        put :update, {:id => project.to_param, :project => { "title" => "invalid value" }}, valid_session
         assigns(:project).should eq(project)
       end
 
@@ -138,7 +138,7 @@ describe ProjectsController do
         project = subject.current_user.projects.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
-        put :update, {:id => project.to_param, :project => { "name" => "invalid value" }}, valid_session
+        put :update, {:id => project.to_param, :project => { "title" => "invalid value" }}, valid_session
         response.should render_template("edit")
       end
     end

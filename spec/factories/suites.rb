@@ -2,9 +2,8 @@
 
 FactoryGirl.define do
   factory :suite do
-    sequence(:name) { |i| "Suite #{i}" }
-    title "MyString"
-    description "MyText"
+    sequence(:title) { |i| "Suite #{i}" }
+    sequence(:description) { |i| "Suite #{i} description" }
     published false
     sequence(:order)
     project nil

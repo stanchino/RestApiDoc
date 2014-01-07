@@ -4,9 +4,9 @@ describe "Assertions" do
   describe "GET /assertions" do
     before do
       login_user
-      @suite = @user.suites.create(name: "MySuite")
-      @page = @suite.pages.create(name: "MyPage")
-      @request = @page.requests.create(title: "MyRequest")
+      @suite = @user.suites.create(FactoryGirl.attributes_for(:suite))
+      @page = @suite.pages.create(FactoryGirl.attributes_for(:page))
+      @request = @page.requests.create(FactoryGirl.attributes_for(:request))
     end
 
     it "works! (now write some real specs)" do

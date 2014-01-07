@@ -1,32 +1,22 @@
 require 'spec_helper'
 
 describe "pages/index" do
-  before(:each) do
-    project = FactoryGirl.create :project
-    suite = project.suites.create(:name => "MySuite")
-    suite.pages = [
-      stub_model(Page,
-         :name => "Name",
-         :title => "Title",
-         :description => "MyText",
-         :published => false,
-         :order => 1,
-      ),
-      stub_model(Page,
-         :name => "Name",
-         :title => "Title",
-         :description => "MyText",
-         :published => false,
-         :order => 1,
-      ),
-    ]
-    assign(:suite, suite)
+  before do
+    @project = assign(:project, FactoryGirl.create(:project))
+    @suite = assign(:suite, @project.suites.create(FactoryGirl.attributes_for(:suite)))
+    @pages = []
+    5.times do
+      @pages << @suite.pages.create(FactoryGirl.attributes_for(:page))
+    end
   end
 
   it "renders a list of pages" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "h4", /Title/, :count => 2
-    assert_select "p", :text => "MyText".to_s, :count => 2
+    @pages.each do |page|
+      assert_select "h3", /#{page.title}/, :count => 1
+      assert_select "h3>a[href=?]", project_suite_page_url(@project, @suite, page), :count => 1
+    end
+    rendered.should match(/href="#{new_project_suite_page_url(@project, @suite)}"/)
   end
 end

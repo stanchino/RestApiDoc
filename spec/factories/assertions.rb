@@ -2,10 +2,9 @@
 
 FactoryGirl.define do
   factory :assertion do
-    title "MyString"
-    description "MyText"
-    assignment "MyString"
-    expectation "MyString"
-    code "MyText"
+    expectation "status"
+    condition "equal"
+    expected "test"
+    assignment "MyVar"
   end
 end

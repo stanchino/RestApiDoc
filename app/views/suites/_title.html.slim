@@ -1,8 +1,8 @@
 h2
   = suite.title
   .right
-    = link_to raw('<small>Edit</small>'), edit_project_suite_path(project, suite)
+    = link_to raw('<small>Edit</small>'), edit_project_suite_url(project, suite)
     small |
-    = link_to raw('<small>Delete</small>'), project_suite_path(project, suite), :data => {:confirm => 'Are you sure?'}, :method => :delete
+    = link_to raw('<small>Delete</small>'), project_suite_url(project, suite), :data => {:confirm => 'Are you sure?'}, :method => :delete
 hr
 p = suite.description
