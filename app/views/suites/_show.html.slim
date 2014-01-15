@@ -18,9 +18,16 @@ ul.breadcrumbs
         h3 = link_to suite.title, project_suite_url(project, suite)
   hr
   h6 = link_to "Add Suite", new_project_suite_url(project)
-.large-9.medium-9.small-8.columns
-  - if current_suite.pages.any?
-    - current_suite.pages.each do |page|
+- if current_suite.pages.any?
+  - current_suite.pages.each do |page|
+    .large-9.medium-9.small-8.columns.right
       h2 = link_to page.title, project_suite_page_url(project, current_suite, page)
-      h6 = page.description
-
+    .large-9.medium-9.small-8.right
+      .large-8.medium-8.small-7.columns
+        h6 = page.description
+      .large-4.medium-4.small-5.columns
+        dl.right.sub-nav
+          dt Options:
+          dd.active = link_to "Summary", "#"
+          dd = link_to "History", "#"
+          dd = link_to "Run", "#"
