@@ -1,0 +1,26 @@
+- project ||= @project
+- suite ||= @suite
+- pages ||= @pages || suite.pages
+- current_page ||= @page || pages.first
+
+ul.breadcrumbs
+  li = link_to "Home", root_url
+  li = link_to project.title, project_url(project)
+  li = link_to suite.title, project_suite_url(project, suite)
+  li.current = link_to current_page.title, project_suite_page_url(project, suite, current_page)
+
+.small-12.columns
+  h1 = current_page.title
+  h5 = current_page.description
+  hr
+.large-3.medium-3.small-4.columns
+  - if pages.any?
+    - pages.each do |page|
+      .panel.radius
+        h3 = link_to page.title, project_suite_page_url(project, suite, page)
+  hr
+  h6 = link_to "Add Page", new_project_suite_page_url(project, suite)
+.large-9.medium-9.small-8.columns
+  - if current_page.requests.any?
+    - current_page.requests.each do |request|
+      = render "requests/show", :current_request => request

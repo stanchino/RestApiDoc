@@ -1,16 +1,1 @@
-- suites ||= @suites
-- project ||= @project
-br
-ul.breadcrumbs
-  li = link_to "Home", root_url
-  li = link_to project.title, project_url(project)
-  li Browse Suites
-
-h2 Browse Suites
-hr
-.large-12.medium-12.small-12.columns
-  - if suites.any?
-    - suites.each do |suite|
-      h3 = link_to suite.title, project_suite_url(project, suite)
-  hr
-  h6 = link_to "Add Suite", new_project_suite_url(project)
+= render "suites/show"

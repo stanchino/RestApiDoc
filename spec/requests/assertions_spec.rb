@@ -4,8 +4,8 @@ describe "Assertions" do
   describe "GET /assertions" do
     before do
       login_user
-      @suite = @user.suites.create(FactoryGirl.attributes_for(:suite))
-      @page = @suite.pages.create(FactoryGirl.attributes_for(:page))
+      @suite = create_suite
+      @page = create_page
       @request = @page.requests.create(FactoryGirl.attributes_for(:request))
     end
 

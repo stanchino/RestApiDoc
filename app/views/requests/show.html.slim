@@ -1,8 +1,1 @@
-- project ||= @project
-- suite ||= @suite
-- page ||= @page
-- request ||= @request
-
-.panel.callout
-  = render :partial => "requests/show", :locals => { :project => project, :suite => suite, :page => page, :request => request }
-  = render :file => "assertions/index", :locals => { :project => project, :suite => suite, :page => page, :request => request }
+= render "requests/show"

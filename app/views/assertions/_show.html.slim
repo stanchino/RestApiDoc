@@ -1,0 +1,11 @@
+- project ||= @project
+- suite ||= @suite
+- page ||= @page
+- request ||= @request
+- current_assertion ||= @assertion
+.row
+  .large-9.medium-9.small-9.columns
+    h6
+      = "Expect #{current_assertion.expectation} to #{current_assertion.condition} #{current_assertion.expected}"
+      - if current_assertion.assignment.present?
+        = " and assign it to #{current_assertion.assignment}"

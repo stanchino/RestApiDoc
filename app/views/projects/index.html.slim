@@ -1,13 +1,1 @@
-- projects ||= @projects
-br
-ul.breadcrumbs
-  li Home
-
-h2 Browse Projects
-hr
-.large-12.medium-12.small-12.columns
-  - if projects.any?
-    - projects.each do |project|
-      h3 = link_to project.title, project_url(project)
-  hr
-  h6 = link_to "Add Project", new_project_url
+= render "projects/show"

@@ -5,6 +5,7 @@ describe "pages/show" do
     @project = assign(:project, FactoryGirl.create(:project))
     @suite = assign(:suite, @project.suites.create(FactoryGirl.attributes_for(:suite)))
     @page = assign(:page, @suite.pages.create(FactoryGirl.attributes_for(:page)))
+    assign(:pages, [@page])
     @requests = []
     5.times do
       @requests << @page.requests.create(FactoryGirl.attributes_for(:request))
@@ -14,13 +15,12 @@ describe "pages/show" do
   it "renders attributes in <p>" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "h2", /#{@page.title}/, :count => 1
-    assert_select "p", :text => @page.description, :count => 1
-    assert_select "h4", :count => @requests.length
+    assert_select "h1", /#{@page.title}/, :count => 1
+    assert_select "h5", :text => @page.description, :count => 1
     @requests.each do |req|
-      assert_select "h3", /#{req.title}/, :count => 1
-      assert_select "p", req.description, :count => 1
+      assert_select "h2", /#{req.title}/, :count => 1
+      assert_select "h6", req.description, :count => 1
     end
-    rendered.should match(/href="#{new_project_suite_page_request_url(@project, @suite, @page)}"/)
+    rendered.should match(/href="#{new_project_suite_page_url(@project, @suite)}"/)
   end
 end
