@@ -4,7 +4,15 @@
 - current_request ||= @request
 
 h2 = current_request.title
-h6 = current_request.description
+.clearfix
+  .left.small-8
+    h6 = current_request.description
+  .right.small-4
+    dl.right.sub-nav
+      dt Options:
+      dd.active = link_to "Summary", "#"
+      dd = link_to "History", "#"
+      dd = link_to "Run", "#"
 .panel
   h3 = "#{current_request.action} #{current_request.uri}"
   hr

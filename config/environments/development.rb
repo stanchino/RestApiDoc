@@ -35,10 +35,13 @@ RestApiDoc::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  # HTTP Basic Authentication for heroku environments
-  if ENV['HTTPAUTH_USERNAME'].present? && ENV["HTTPAUTH_PASSWORD"].present?
-    config.middleware.insert_after(::Rack::Lock, "::Rack::Auth::Basic", "RestApiDoc Development") do |u, p|
-      [u, p] == [ENV['HTTPAUTH_USERNAME'], ENV['HTTPAUTH_PASSWORD']]
-    end
-  end
+  ## HTTP Basic Authentication for heroku environments
+  #if ENV['HTTPAUTH_USERNAME'].present? && ENV["HTTPAUTH_PASSWORD"].present?
+  #  config.middleware.insert_after(::Rack::Lock, "::Rack::Auth::Basic", "RestApiDoc Development") do |u, p|
+  #    [u, p] == [ENV['HTTPAUTH_USERNAME'], ENV['HTTPAUTH_PASSWORD']]
+  #  end
+  #end
+
+  # Check the [websocket-rails][https://github.com/websocket-rails/websocket-rails/wiki/Installation-and-Setup] documentation
+  config.middleware.delete Rack::Lock
 end
