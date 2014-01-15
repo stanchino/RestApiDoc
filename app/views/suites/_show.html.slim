@@ -1,0 +1,26 @@
+- project ||= @project
+- suites ||= @suites || project.suites
+- current_suite ||= @suite || suites.first
+
+ul.breadcrumbs
+  li = link_to "Home", root_url
+  li = link_to project.title, project_url(project)
+  li.current = link_to current_suite.title, project_suite_url(project, current_suite)
+
+.small-12.columns
+  h1 = current_suite.title
+  h5 = current_suite.description
+  hr
+.large-3.medium-3.small-4.columns
+  - if suites.any?
+    - suites.each do |suite|
+      .panel.radius
+        h3 = link_to suite.title, project_suite_url(project, suite)
+  hr
+  h6 = link_to "Add Suite", new_project_suite_url(project)
+.large-9.medium-9.small-8.columns
+  - if current_suite.pages.any?
+    - current_suite.pages.each do |page|
+      h2 = link_to page.title, project_suite_page_url(project, current_suite, page)
+      h6 = page.description
+

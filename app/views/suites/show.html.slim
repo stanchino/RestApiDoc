@@ -1,16 +1,1 @@
-- suite ||= @suite
-- project ||= @project
-br
-ul.breadcrumbs
-  li = link_to "Home", root_url
-  li = link_to project.title, project_url(project)
-  li = suite.title
-
-= render :partial => "suites/title", :locals => { :project => project, :suite => suite }
-.large-12.medium-12.small-12.columns
-  - if suite.pages.any?
-    - suite.pages.each do |page|
-      h3
-        = link_to page.title, project_suite_page_url(project, suite, page)
-  hr
-  h6 = link_to "Add Page", new_project_suite_page_url(project, suite)
+= render "suites/show"

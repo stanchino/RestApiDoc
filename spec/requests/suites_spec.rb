@@ -4,7 +4,7 @@ describe "Suites" do
   describe "GET /suites" do
     before do
       login_user
-      @project = @user.projects.create(FactoryGirl.attributes_for(:project))
+      @suites = create_suites
     end
 
     it "works! (now write some real specs)" do

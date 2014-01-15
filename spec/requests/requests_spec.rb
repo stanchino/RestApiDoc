@@ -4,8 +4,8 @@ describe "Requests" do
   describe "GET /requests" do
     before do
       login_user
-      @suite = @user.suites.create(FactoryGirl.attributes_for(:suite))
-      @page = @suite.pages.create(FactoryGirl.attributes_for(:page))
+      @suite = create_suite
+      @page = create_page
     end
 
     it "works! (now write some real specs)" do

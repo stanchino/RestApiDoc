@@ -1,12 +1,16 @@
-h3
-  = request.title
-  .right
-    = link_to raw('<small>New Assertion</small>'), new_suite_page_request_assertion_path(suite, page, request)
-    small |
-    = link_to raw('<small>Edit</small>'), edit_suite_page_request_path(suite, page, request)
-    small |
-    = link_to raw('<small>Delete</small>'), suite_page_request_path(suite, page, request), :data => {:confirm => 'Are you sure?'}, :method => :delete
-hr
-p = request.description
-h4 = "#{request.action} #{request.uri}"
-p = request.body
+- project ||= @project
+- suite ||= @suite
+- page ||= @page
+- current_request ||= @request
+
+h2 = current_request.title
+h6 = current_request.description
+.panel
+  h3 = "#{current_request.action} #{current_request.uri}"
+  hr
+  - if current_request.body.present?
+    pre = current_request.body
+  - if current_request.assertions.any?
+    h5 Assertions:
+    - current_request.assertions.each do |assertion|
+      = render "assertions/show", :request => current_request, :current_assertion => assertion

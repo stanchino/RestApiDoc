@@ -1,0 +1,28 @@
+- projects ||= @projects
+- current_project ||= @project || projects.first
+
+ul.breadcrumbs
+  li = link_to "Home", root_url
+  li.current = link_to current_project.title, project_url(current_project)
+
+.page-header.small-12.columns
+  h1 = current_project.title
+  h5 = current_project.description
+  hr
+.large-3.medium-3.small-4.columns
+  - if projects.any?
+    - projects.each do |project|
+      .panel.radius
+        h3 = link_to project.title, project_url(project)
+  hr
+  h6 = link_to "Add Project", new_project_url
+.large-9.medium-9.small-8.columns
+  dl.right.sub-nav
+    dt Filter:
+    dd.active = link_to "All", "#"
+    dd = link_to "Success", "#"
+    dd = link_to "Failure", "#"
+  - if current_project.suites.any?
+    - current_project.suites.each do |suite|
+      h2 = link_to suite.title, project_suite_url(current_project, suite)
+      h6 = suite.description
