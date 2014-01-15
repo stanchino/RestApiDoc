@@ -19,3 +19,6 @@ html lang="en"
             p#notice = yield(:notice)
         section#main-content role="content"
           = yield
+    = javascript_include_tag "foundation", :"data-turbolinks-track" => false
+    javascript:
+      $(function(){ $(document).foundation(); });
