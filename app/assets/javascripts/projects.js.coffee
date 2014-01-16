@@ -1,5 +1,6 @@
 $ ->
-  dispatcher = new WebSocketRails('localhost:3000/websocket')
+  host = window.document.location.host
+  dispatcher = new WebSocketRails("#{host}/websocket")
   channel = dispatcher.subscribe("requests")
   channel.bind "call", (info) ->
     jqXHR = $.ajax
