@@ -1,1 +1,1 @@
-json.extract! @request, :id, :title, :description, :method, :entity_id, :created_at, :updated_at
+json.extract! @request, :id, :title, :description, :action, :created_at, :updated_at

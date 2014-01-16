@@ -22,5 +22,5 @@ ul.breadcrumbs
   h6 = link_to "Add Page", new_project_suite_page_url(project, suite)
 - if current_page.requests.any?
   - current_page.requests.each do |request|
-    .large-9.medium-9.small-8.columns.right
+    .large-9.medium-9.small-8.columns.right.request
       = render "requests/show", :current_request => request

@@ -12,7 +12,7 @@ h2 = current_request.title
       dt Options:
       dd.active = link_to "Summary", "#"
       dd = link_to "History", "#"
-      dd = link_to "Run", "#"
+      dd = link_to "Run", "#", :"data-action" => "run-request", :"data-request-id" => current_request.to_param
 .panel
   h3 = "#{current_request.action} #{current_request.uri}"
   hr
