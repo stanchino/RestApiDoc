@@ -1,11 +1,12 @@
-- project ||= @project
-- suites ||= @suites || project.suites
+- projects ||= @projects || current_user.projects
+- current_project ||= @project
+- suites ||= @suites || current_project.suites
 - current_suite ||= @suite || suites.first
 
 ul.breadcrumbs
   li = link_to "Home", root_url
-  li = link_to project.title, project_url(project)
-  li.current = link_to current_suite.title, project_suite_url(project, current_suite)
+  li = link_to current_project.title, project_url(current_project)
+  li.current = link_to current_suite.title, project_suite_url(current_project, current_suite)
 
 .small-12.columns
   h1 = current_suite.title
@@ -15,19 +16,33 @@ ul.breadcrumbs
   - if suites.any?
     - suites.each do |suite|
       .panel.radius
-        h3 = link_to suite.title, project_suite_url(project, suite)
+        h3
+          = link_to suite.title, project_suite_url(current_project, suite)
+          .green.right.fi-check 
   hr
-  h6 = link_to "Add Suite", new_project_suite_url(project)
+  h6 = link_to "Add Suite", new_project_suite_url(current_project)
 - if current_suite.pages.any?
   - current_suite.pages.each do |page|
     .large-9.medium-9.small-8.columns.right
-      h2 = link_to page.title, project_suite_page_url(project, current_suite, page)
-    .large-9.medium-9.small-8.right
-      .large-8.medium-8.small-7.columns
-        h6 = page.description
-      .large-4.medium-4.small-5.columns
-        dl.right.sub-nav
-          dt Options:
-          dd.active = link_to "Summary", "#"
-          dd = link_to "History", "#"
-          dd = link_to "Run", "#"
+      h2 = link_to page.title, project_suite_page_url(current_project, current_suite, page)
+      dl.sub-nav*{:"data-tab" => true}
+        dd
+          = link_to "#page-summary-#{page.to_param}"
+            | Info 
+            i.fi-info
+        dd
+          = link_to "#page-history-#{page.to_param}"
+            | History 
+            i.fi-results
+        dd
+          = link_to "#page-run-#{page.to_param}", :"data-action" => "run-page", :"data-page-id" => page.to_param
+            | Run 
+            i.fi-play-circle
+      h6 = page.description
+      .tabs-content
+        .content*{ :id => "page-summary-#{page.to_param}" }
+          p Summary
+        .content*{ :id => "page-history-#{page.to_param}" }
+          p History
+        .content*{ :id => "page-run-#{page.to_param}" }
+          p Loading...

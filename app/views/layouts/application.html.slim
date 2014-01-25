@@ -4,9 +4,8 @@ html lang="en"
     title = content_for?(:title) ? yield(:title) : 'Rest Api Doc'
     meta charset="utf-8"
     meta content="width=device-width, initial-scale=1.0" name="viewport"
-    = stylesheet_link_tag "application", :"data-turbolinks-track" => true
+    = stylesheet_link_tag "application"
     = csrf_meta_tags
-    = javascript_include_tag "application", :"data-turbolinks-track" => true
   body
     .off-canvas-wrap
       .inner-wrap
@@ -19,6 +18,4 @@ html lang="en"
             p#notice = yield(:notice)
         section#main-content role="content"
           = yield
-    = javascript_include_tag "foundation", :"data-turbolinks-track" => false
-    javascript:
-      $(function(){ $(document).foundation(); });
+    = javascript_include_tag "application"

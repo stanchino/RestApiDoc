@@ -13,14 +13,22 @@ ul.breadcrumbs
   h1 = current_page.title
   h5 = current_page.description
   hr
-.large-3.medium-3.small-4.columns
+.large-3.medium-4.small-12.columns
   - if pages.any?
     - pages.each do |page|
       .panel.radius
-        h3 = link_to page.title, project_suite_page_url(project, suite, page)
+        h3
+          = link_to page.title, project_suite_page_url(project, suite, page)
+          .green.right.fi-check
+        hr
+        ul.sub-nav
+          li
+            = link_to "#page-run-#{page.to_param}", :"data-action" => "run-page", :"data-page-id" => page.to_param, :class => ["right"]
+              | Run Page 
+              i.fi-play-circle
   hr
   h6 = link_to "Add Page", new_project_suite_page_url(project, suite)
 - if current_page.requests.any?
   - current_page.requests.each do |request|
-    .large-9.medium-9.small-8.columns.right.request
+    .large-9.medium-8.small-12.columns.right.request
       = render "requests/show", :current_request => request

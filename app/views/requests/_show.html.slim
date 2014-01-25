@@ -4,21 +4,33 @@
 - current_request ||= @request
 
 h2 = current_request.title
-.clearfix
-  .left.small-8
-    h6 = current_request.description
-  .right.small-4
-    dl.right.sub-nav
-      dt Options:
-      dd.active = link_to "Summary", "#"
-      dd = link_to "History", "#"
-      dd = link_to "Run", "#", :"data-action" => "run-request", :"data-request-id" => current_request.to_param
-.panel
-  h3 = "#{current_request.action} #{current_request.uri}"
-  hr
-  - if current_request.body.present?
-    pre = current_request.body
-  - if current_request.assertions.any?
-    h5 Assertions:
-    - current_request.assertions.each do |assertion|
-      = render "assertions/show", :request => current_request, :current_assertion => assertion
+dl.sub-nav*{:"data-tab" => true}
+  dd.active 
+    = link_to "#request-summary-#{current_request.to_param}"
+      | Info 
+      i.fi-info
+  dd
+    = link_to "#request-history-#{current_request.to_param}"
+      | History 
+      i.fi-results
+  dd
+    = link_to "#request-run-#{current_request.to_param}", :"data-action" => "run-request", :"data-request-id" => current_request.to_param
+      | Run 
+      i.fi-play-circle
+h6 = current_request.description
+.tabs-content.panel
+  .row.content.active*{ :id => "request-summary-#{current_request.to_param}" }
+    h3 = "#{current_request.action} #{current_request.uri}"
+    hr
+    - if current_request.body.present?
+      pre = current_request.body
+    - if current_request.assertions.any?
+      h5 Assertions:
+      - current_request.assertions.each do |assertion|
+        = render "assertions/show", :request => current_request, :current_assertion => assertion
+  .row.content*{ :id => "request-history-#{current_request.to_param}" }
+    p Request History
+  .row.content*{ :id => "request-run-#{current_request.to_param}" }
+    h3 = "#{current_request.action} #{current_request.uri}"
+    hr
+    p.response Loading...

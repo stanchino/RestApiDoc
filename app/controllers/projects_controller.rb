@@ -5,7 +5,6 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = (Project.published + current_user.projects).sort_by(&:created_at)
   end
 
   # GET /projects/1
@@ -70,7 +69,7 @@ class ProjectsController < ApplicationController
       if params[:id].present?
         @project = Project.find(params[:id])
       else
-        @project = current_user.latest_project
+        @project = @projects.first#current_user.latest_project
       end
     end
 
