@@ -1,34 +1,63 @@
-- project ||= @project
-- suite ||= @suite
-- pages ||= @pages || suite.pages
+- current_project ||= @project
+- suites ||= @suites || current_project.suites
+- current_suite ||= @suite || suites.first
+- pages ||= current_suite.pages
 - current_page ||= @page || pages.first
 
 ul.breadcrumbs
   li = link_to "Home", root_url
-  li = link_to project.title, project_url(project)
-  li = link_to suite.title, project_suite_url(project, suite)
-  li.current = link_to current_page.title, project_suite_page_url(project, suite, current_page)
+  li = link_to current_project.title, project_url(current_project)
+  li = link_to current_suite.title, project_suite_url(current_project, current_suite)
+  li.current = link_to current_page.title, project_suite_page_url(current_project, current_suite, current_page)
 
-.small-12.columns
-  h1 = current_page.title
-  h5 = current_page.description
-  hr
-.large-3.medium-4.small-12.columns
-  - if pages.any?
-    - pages.each do |page|
-      .panel.radius
-        h3
-          = link_to page.title, project_suite_page_url(project, suite, page)
-          .green.right.fi-check
-        hr
-        ul.sub-nav
-          li
-            = link_to "#page-run-#{page.to_param}", :"data-action" => "run-page", :"data-page-id" => page.to_param, :class => ["right"]
-              | Run Page 
-              i.fi-play-circle
-  hr
-  h6 = link_to "Add Page", new_project_suite_page_url(project, suite)
-- if current_page.requests.any?
-  - current_page.requests.each do |request|
-    .large-9.medium-8.small-12.columns.right.request
-      = render "requests/show", :current_request => request
+.row
+  .large-3.medium-4.small-12.columns
+    - if pages.any?
+      - pages.each do |page|
+        .panel
+          h3 
+            = link_to project_suite_page_url(current_project, current_suite, page)
+              span = page.title
+              i.green.right.fi-check
+  .large-9.medium-8.small-12.columns
+    .row
+      .small-12.columns
+        h1 = current_page.title
+        h5 = current_page.description
+      dl.tabs.columns*{ :"data-tab" => true }
+        dd.active = link_to "#page-summary-#{current_page.to_param}"
+          i.fi-info
+          |  Summary
+        dd = link_to "#page-history-#{current_page.to_param}"
+          i.fi-clock
+          |  History
+        dd
+          = link_to "#new-request"
+            i.fi-page-add
+            |  Add Request
+        dd
+          = link_to "#page-run-#{current_page.to_param}", :"data-action" => "run-page", :"data-page-id" => current_page.to_param
+            i.fi-play-circle
+            |  Run
+        dd.right
+          = link_to project_suite_page_url(current_project, current_suite, current_page), method: :delete
+            i.fi-x-circle
+            |  Delete
+        dd.right
+          = link_to "#edit-page-#{current_page.to_param}"
+            i.fi-page-edit
+            |  Edit
+      hr
+      .tabs-content
+        .content.columns.active*{ :id => "page-summary-#{current_page.to_param}" }
+          - if current_page.requests.any?
+            - current_page.requests.each do |request|
+              = render "requests/show", :current_request => request
+        .content.columns*{ :id => "page-history-#{current_page.to_param}" }
+          p History
+        #new-request.content
+          = render "requests/form", current_project: current_project, current_suite: current_suite, current_page: current_page
+        .content.columns*{ :id => "page-run-#{current_page.to_param}" }
+          p Loading ...
+        .content.columns*{ :id => "edit-page-#{current_page.to_param}" }
+          = render "pages/form", project: current_project, suite: current_suite, page: current_page

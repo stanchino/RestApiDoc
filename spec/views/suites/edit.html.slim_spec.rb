@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "suites/edit" do
   before(:each) do
     @project = assign(:project, FactoryGirl.create(:project))
-    @suite = assign(:suite, stub_model(Suite, FactoryGirl.attributes_for(:suite)))
+    @suite = assign(:suite, @project.suites.create(FactoryGirl.attributes_for(:suite)))
   end
 
   it "renders the edit suite form" do

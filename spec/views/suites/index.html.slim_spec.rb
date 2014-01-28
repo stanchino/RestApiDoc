@@ -3,6 +3,7 @@ require 'spec_helper'
 describe "suites/index" do
   before do
     @project = assign(:project, FactoryGirl.create(:project))
+    @projects = assign(:projects, [@project])
     @suites = []
     5.times do
       @suites << @project.suites.create(FactoryGirl.attributes_for(:suite))
@@ -16,6 +17,5 @@ describe "suites/index" do
       assert_select "h3", /#{suite.title}/, :count => 1
       assert_select "h3>a[href=?]", project_suite_url(@project, suite), :count => 1
     end
-    rendered.should match(/href="#{new_project_suite_url(@project)}"/)
   end
 end

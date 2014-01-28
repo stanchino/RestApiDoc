@@ -20,9 +20,9 @@ ul.breadcrumbs
         h1 = current_project.title
         h5 = current_project.description
       dl.tabs.columns*{ :"data-tab" => true }
-        dd.active = link_to "#project-suites-#{current_project.to_param}"
-          i.fi-list
-          |  Suites
+        dd.active = link_to "#project-summary-#{current_project.to_param}"
+          i.fi-info
+          |  Summary
         dd = link_to "#project-history-#{current_project.to_param}"
           i.fi-clock
           |  History
@@ -34,74 +34,33 @@ ul.breadcrumbs
           = link_to "#project-run-#{current_project.to_param}", :"data-action" => "run-project", :"data-project-id" => current_project.to_param
             i.fi-play-circle
             |  Run
-        dd.right
+        dd.hide-for-large-up
           = link_to project_url(current_project), method: :delete
             i.fi-x-circle
             |  Delete
-        dd.right
+        dd.hide-for-large-up
+          = link_to "#edit-project-#{current_project.to_param}"
+            i.fi-page-edit
+            |  Edit
+        dd.show-for-large-up.right
+          = link_to project_url(current_project), method: :delete
+            i.fi-x-circle
+            |  Delete
+        dd.show-for-large-up.right
           = link_to "#edit-project-#{current_project.to_param}"
             i.fi-page-edit
             |  Edit
       hr
-      .tabs-content.columns
-        .content.active*{ :id => "project-suites-#{current_project.to_param}" }
+      .tabs-content
+        .content.columns.active*{ :id => "project-summary-#{current_project.to_param}" }
           - if current_project.suites.any?
             - current_project.suites.each do |suite|
-              h2 = link_to suite.title, "#suite-content-#{suite.to_param}"
-              dl.sub-nav*{:"data-tab" => true}
-                dd.active
-                  = link_to "#suite-summary-#{suite.to_param}"
-                    i.fi-info
-                    |  Info
-                dd
-                  = link_to "#suite-pages-#{suite.to_param}"
-                    i.fi-list
-                    |  Pages
-                dd
-                  = link_to "#suite-history-#{suite.to_param}"
-                    i.fi-clock
-                    |  History
-                dd
-                  = link_to "#suite-run-#{suite.to_param}", :"data-action" => "run-suite", :"data-suite-id" => suite.to_param
-                    | Run 
-                    i.fi-play-circle
-              h6 = suite.description
-              .tabs-content
-                .content.active*{ :id => "suite-summary-#{suite.to_param}" }
-                  p Summary
-                .content*{ :id => "suite-pages-#{suite.to_param}" }
-                  - suite.pages.each do |page|
-                    h3 = link_to page.title, project_suite_page_url(current_project, suite, page)
-                    dl.sub-nav*{:"data-tab" => true}
-                      dd
-                        = link_to "#page-summary-#{page.to_param}"
-                          i.fi-list
-                          |  Requests
-                      dd
-                        = link_to "#page-history-#{page.to_param}"
-                          i.fi-clock
-                          |  History
-                      dd
-                        = link_to "#page-run-#{page.to_param}", :"data-action" => "run-page", :"data-page-id" => page.to_param
-                          | Run 
-                          i.fi-play-circle
-                    h6 = page.description
-                    .tabs-content
-                      .content*{ :id => "page-summary-#{page.to_param}" }
-                        p Request
-                      .content*{ :id => "page-history-#{page.to_param}" }
-                        p History
-                      .content*{ :id => "page-run-#{page.to_param}" }
-                        p Loading...
-                .content*{ :id => "suite-history-#{suite.to_param}" }
-                  p History
-                .content*{ :id => "suite-run-#{suite.to_param}" }
-                  p Loading...
-        .content*{ :id => "project-history-#{current_project.to_param}" }
+              = render "suites/summary", current_project: current_project, suite: suite
+        .content.columns*{ :id => "project-history-#{current_project.to_param}" }
           p History
         #new-suite.content
           = render "suites/form", :project => current_project
-        .content*{ :id => "project-run-#{current_project.to_param}" }
+        .content.columns*{ :id => "project-run-#{current_project.to_param}" }
           p Loading ...
-        .content*{ :id => "edit-project-#{current_project.to_param}" }
+        .content.columns*{ :id => "edit-project-#{current_project.to_param}" }
           = render "projects/form"

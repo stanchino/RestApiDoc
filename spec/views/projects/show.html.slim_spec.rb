@@ -20,6 +20,5 @@ describe "projects/show" do
       assert_select "h2>a[href=?]", project_suite_url(@project, suite), :count => 1
       assert_select "h6", suite.description, :count => 1
     end
-    rendered.should match(/href="#{new_project_url}"/)
   end
 end

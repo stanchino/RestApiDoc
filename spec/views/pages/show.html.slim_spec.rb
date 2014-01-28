@@ -6,6 +6,7 @@ describe "pages/show" do
     @suite = assign(:suite, @project.suites.create(FactoryGirl.attributes_for(:suite)))
     @page = assign(:page, @suite.pages.create(FactoryGirl.attributes_for(:page)))
     assign(:pages, [@page])
+    assign(:request, nil)
     @requests = []
     5.times do
       @requests << @page.requests.create(FactoryGirl.attributes_for(:request))
@@ -21,6 +22,5 @@ describe "pages/show" do
       assert_select "h2", /#{req.title}/, :count => 1
       assert_select "h6", req.description, :count => 1
     end
-    rendered.should match(/href="#{new_project_suite_page_url(@project, @suite)}"/)
   end
 end

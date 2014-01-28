@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe "suites/show" do
   before(:each) do
-    @project = assign(:project, stub_model(Project, FactoryGirl.attributes_for(:project)))
+    @project = assign(:project, FactoryGirl.create(:project))
+    @projects = assign(:projects, [@project])
     @suite = assign(:suite, @project.suites.create(FactoryGirl.attributes_for(:suite)))
     assign(:suites, [@suite])
     @pages = []
@@ -21,6 +22,5 @@ describe "suites/show" do
       assert_select "h2>a[href=?]", project_suite_page_url(@project, @suite, page), :count => 1
       assert_select "h6", page.description, :count => 1
     end
-    rendered.should match(/href="#{new_project_suite_url(@project)}"/)
   end
 end

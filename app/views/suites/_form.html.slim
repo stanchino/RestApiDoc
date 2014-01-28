@@ -1,5 +1,5 @@
 - project ||= @project
-- suite ||= project.suites.build
+- suite ||= @suite || project.suites.build
 
 = simple_form_for([project, suite]) do |f|
   = f.error_notification

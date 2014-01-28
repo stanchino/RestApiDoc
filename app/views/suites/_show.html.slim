@@ -8,41 +8,54 @@ ul.breadcrumbs
   li = link_to current_project.title, project_url(current_project)
   li.current = link_to current_suite.title, project_suite_url(current_project, current_suite)
 
-.small-12.columns
-  h1 = current_suite.title
-  h5 = current_suite.description
-  hr
-.large-3.medium-3.small-4.columns
-  - if suites.any?
-    - suites.each do |suite|
-      .panel.radius
-        h3
-          = link_to suite.title, project_suite_url(current_project, suite)
-          .green.right.fi-check 
-  hr
-  h6 = link_to "Add Suite", new_project_suite_url(current_project)
-- if current_suite.pages.any?
-  - current_suite.pages.each do |page|
-    .large-9.medium-9.small-8.columns.right
-      h2 = link_to page.title, project_suite_page_url(current_project, current_suite, page)
-      dl.sub-nav*{:"data-tab" => true}
+.row
+  .large-3.medium-4.small-12.columns
+    - if suites.any?
+      - suites.each do |suite|
+        .panel
+          h3 
+            = link_to project_suite_url(current_project, suite)
+              span = suite.title
+              i.green.right.fi-check
+  .large-9.medium-8.small-12.columns
+    .row
+      .small-12.columns
+        h1 = current_suite.title
+        h5 = current_suite.description
+      dl.tabs.columns*{ :"data-tab" => true }
+        dd.active = link_to "#suite-summary-#{current_project.to_param}"
+          i.fi-info
+          |  Summary
+        dd = link_to "#suite-history-#{current_project.to_param}"
+          i.fi-clock
+          |  History
         dd
-          = link_to "#page-summary-#{page.to_param}"
-            | Info 
-            i.fi-info
+          = link_to "#new-page"
+            i.fi-page-add
+            |  Add Page
         dd
-          = link_to "#page-history-#{page.to_param}"
-            | History 
-            i.fi-results
-        dd
-          = link_to "#page-run-#{page.to_param}", :"data-action" => "run-page", :"data-page-id" => page.to_param
-            | Run 
+          = link_to "#suite-run-#{current_project.to_param}", :"data-action" => "run-suite", :"data-project-id" => current_suite.to_param
             i.fi-play-circle
-      h6 = page.description
+            |  Run
+        dd.right
+          = link_to project_suite_url(current_project, current_suite), method: :delete
+            i.fi-x-circle
+            |  Delete
+        dd.right
+          = link_to "#edit-suite-#{current_suite.to_param}"
+            i.fi-page-edit
+            |  Edit
+      hr
       .tabs-content
-        .content*{ :id => "page-summary-#{page.to_param}" }
-          p Summary
-        .content*{ :id => "page-history-#{page.to_param}" }
+        .content.columns.active*{ :id => "suite-summary-#{current_suite.to_param}" }
+          - if current_suite.pages.any?
+            - current_suite.pages.each do |page|
+              = render "pages/summary", current_project: current_project, current_suite: current_suite, page: page
+        .content.columns*{ :id => "suite-history-#{current_suite.to_param}" }
           p History
-        .content*{ :id => "page-run-#{page.to_param}" }
-          p Loading...
+        #new-page.content
+          = render "pages/form", project: current_project, suite: current_suite
+        .content.columns*{ :id => "suite-run-#{current_suite.to_param}" }
+          p Loading ...
+        .content.columns*{ :id => "edit-suite-#{current_suite.to_param}" }
+          = render "suites/form", suite: current_suite
