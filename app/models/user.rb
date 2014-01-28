@@ -16,6 +16,22 @@ class User < ActiveRecord::Base
     ROLES.index(base_role.to_s) <= ROLES.index(role.to_s)
   end
 
+  def roles
+    ROLES.reject do |r|
+      ((roles_mask || 0) & 2**ROLES.index(r)).zero?
+    end
+  end
+
+  def roles=(roles)
+    user_roles = []
+    user_roles.push(roles).flatten!
+    self.roles_mask = (user_roles & ROLES).map { |r| 2**ROLES.index(r) }.inject(0, :+)
+  end
+
+  def is?(role)
+    roles.include?(role.to_s)
+  end
+
   def latest_project
     projects.recent.last
   end

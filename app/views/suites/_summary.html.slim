@@ -1,0 +1,27 @@
+h2 = link_to suite.title, project_suite_url(current_project, suite)
+hr
+dl.sub-nav*{:"data-tab" => true}
+  dd.active
+    = link_to "#suite-summary-#{suite.to_param}"
+      i.fi-info
+      |  Info
+  dd
+    = link_to "#suite-history-#{suite.to_param}"
+      i.fi-clock
+      |  History
+  dd
+    = link_to "#suite-run-#{suite.to_param}", :"data-action" => "run-suite", :"data-suite-id" => suite.to_param
+      | Run 
+      i.fi-play-circle
+h6 = suite.description
+.tabs-content
+  .content.active*{ :id => "suite-summary-#{suite.to_param}" }
+    p Summary
+  .content*{ :id => "suite-pages-#{suite.to_param}" }
+    - if suite.pages.any?
+      - suite.pages.each do |page|
+        = render "pages/summary", current_project: current_project, current_suite: suite, page: page
+  .content*{ :id => "suite-history-#{suite.to_param}" }
+    p History
+  .content*{ :id => "suite-run-#{suite.to_param}" }
+    p Loading...

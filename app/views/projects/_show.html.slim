@@ -5,27 +5,62 @@ ul.breadcrumbs
   li = link_to "Home", root_url
   li.current = link_to current_project.title, project_url(current_project)
 
-.small-12.columns
-  h1 = current_project.title
-  h5 = current_project.description
-  hr
-.large-3.medium-3.small-4.columns
-  - if projects.any?
-    - projects.each do |project|
-      .panel.radius
-        h3 = link_to project.title, project_url(project)
-  hr
-  h6 = link_to "Add Project", new_project_url
-- if current_project.suites.any?
-  - current_project.suites.each do |suite|
-    .large-9.medium-9.small-8.columns.right
-      h2 = link_to suite.title, project_suite_url(current_project, suite)
-    .large-9.medium-9.small-8.right
-      .large-8.medium-8.small-7.columns
-        h6 = suite.description
-      .large-4.medium-4.small-5.columns
-        dl.right.sub-nav
-          dt Options:
-          dd.active = link_to "Summary", "#"
-          dd = link_to "History", "#"
-          dd = link_to "Run", "#"
+.row
+  .large-3.medium-4.small-12.columns
+    - if projects.any?
+      - projects.each do |project|
+        .panel
+          h3 
+            = link_to project_url(project)
+              span = project.title
+              i.green.right.fi-check
+  .large-9.medium-8.small-12.columns
+    .row
+      .small-12.columns
+        h1 = current_project.title
+        h5 = current_project.description
+      dl.tabs.columns*{ :"data-tab" => true }
+        dd.active = link_to "#project-summary-#{current_project.to_param}"
+          i.fi-info
+          |  Summary
+        dd = link_to "#project-history-#{current_project.to_param}"
+          i.fi-clock
+          |  History
+        dd
+          = link_to "#new-suite"
+            i.fi-page-add
+            |  Add Suite
+        dd
+          = link_to "#project-run-#{current_project.to_param}", :"data-action" => "run-project", :"data-project-id" => current_project.to_param
+            i.fi-play-circle
+            |  Run
+        dd.hide-for-large-up
+          = link_to project_url(current_project), method: :delete
+            i.fi-x-circle
+            |  Delete
+        dd.hide-for-large-up
+          = link_to "#edit-project-#{current_project.to_param}"
+            i.fi-page-edit
+            |  Edit
+        dd.show-for-large-up.right
+          = link_to project_url(current_project), method: :delete
+            i.fi-x-circle
+            |  Delete
+        dd.show-for-large-up.right
+          = link_to "#edit-project-#{current_project.to_param}"
+            i.fi-page-edit
+            |  Edit
+      hr
+      .tabs-content
+        .content.columns.active*{ :id => "project-summary-#{current_project.to_param}" }
+          - if current_project.suites.any?
+            - current_project.suites.each do |suite|
+              = render "suites/summary", current_project: current_project, suite: suite
+        .content.columns*{ :id => "project-history-#{current_project.to_param}" }
+          p History
+        #new-suite.content
+          = render "suites/form", :project => current_project
+        .content.columns*{ :id => "project-run-#{current_project.to_param}" }
+          p Loading ...
+        .content.columns*{ :id => "edit-project-#{current_project.to_param}" }
+          = render "projects/form"

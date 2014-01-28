@@ -3,7 +3,7 @@
 //
 
 // Uncomment to use rem-calc() in your settings
-@import "foundation/functions";
+@import 'foundation/functions';
 
 // $experimental: true;
 
@@ -30,7 +30,7 @@ $rem-base: 16px;
 
 // $include-html-grid-classes: $include-html-classes;
 
-$row-width: rem-calc(1280);
+$row-width: 100%;
 // $column-gutter: rem-calc(30);
 // $total-columns: 12;
 
@@ -866,6 +866,7 @@ $row-width: rem-calc(1280);
 // $include-html-tabs-classes: $include-html-classes;
 
 // $tabs-navigation-padding: rem-calc(16);
+$tabs-navigation-padding: rem-calc(8);
 // $tabs-navigation-bg-color: #efefef  ;
 // $tabs-navigation-hover-bg-color: darken($tabs-navigation-bg-color, 5%);
 // $tabs-navigation-font-color: #222;
@@ -992,3 +993,12 @@ $topbar-bg-color: #212D48;
 // $topbar-sticky-class: ".sticky";
 // $topbar-arrows: true; //Set false to remove the triangle icon from the menu item
 @import 'foundation';
+@import 'foundation-icons';
+
+.tabs dd a, .tabs li a {
+  border: $table-border-size $table-border-style $table-border-color;
+  border-collapse:collapse;
+}
+.tabs dd.active a, .tabs li.active a {
+  border-bottom-color: $body-bg;
+}

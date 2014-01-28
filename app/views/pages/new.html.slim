@@ -1,5 +1,5 @@
+- project ||= @project
 - suite ||= @suite
-- project ||= suite.project
 
 br
 ul.breadcrumbs
@@ -10,4 +10,4 @@ ul.breadcrumbs
 
 h2 Add page
 
-== render 'form'
+== render 'form', project: project, suite: suite

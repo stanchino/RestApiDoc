@@ -1,8 +1,9 @@
-- project ||= @project
-- suite ||= @suite
-- page ||= @page
-- request ||= @request
-= simple_form_for([project, suite, page, request]) do |f|
+- current_project ||= @project
+- current_suite ||= @suite
+- current_page ||= @page
+- request ||= @request || current_page.requests.build
+
+= simple_form_for([current_project, current_suite, current_page, request]) do |f|
   = f.error_notification
 
   .form-inputs

@@ -1,0 +1,27 @@
+h2 = link_to page.title, project_suite_page_url(current_project, current_suite, page)
+hr
+dl.sub-nav*{:"data-tab" => true}
+  dd.active
+    = link_to "#page-summary-#{page.to_param}"
+      i.fi-info
+      |  Info
+  dd
+    = link_to "#page-history-#{page.to_param}"
+      i.fi-clock
+      |  History
+  dd
+    = link_to "#page-run-#{page.to_param}", :"data-action" => "run-page", :"data-page-id" => page.to_param
+      i.fi-play-circle
+      |  Run
+  dd
+    = link_to project_suite_page_url(current_project, current_suite, page), method: :delete
+      i.fi-x-circle
+      |  Delete
+h6 = page.description
+.tabs-content
+  .content*{ :id => "page-summary-#{page.to_param}" }
+    p Request
+  .content*{ :id => "page-history-#{page.to_param}" }
+    p History
+  .content*{ :id => "page-run-#{page.to_param}" }
+    p Loading...
